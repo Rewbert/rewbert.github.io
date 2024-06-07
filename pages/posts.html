@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Start cookieyes banner -->
+    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/b707b912c35e0b1ddb871ab0/script.js"></script>
+    <!-- End cookieyes banner -->
+
+    <!--  https://wordpress.org/support/topic/cookieyes-and-google-analytics/
+    The comment by the cookieyes people here leads me to believe that I install the google analytics tag and the
+    cookieyes banner separately, and that unless a user gives consent, the cookie is blocked
+    -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B5L75TXSWG"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-B5L75TXSWG');
+    </script>
+   
+    <meta charset="utf-8">
+    <title>Robert Krook</title>
+
+    <!-- styling -->
+    <link rel="stylesheet" href="../style/style.css">
+
+    <!-- ubuntu sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+
+    <!-- landing page information with my face and some text -->
+    <div style="align-items: center; margin: auto; max-width: fit-content">
+      <img src="../resources/me.jpg" style="border-radius: 50%; margin: auto; display: block" class="landing-image">
+      <h1 class="ubuntu-font" style="text-align: center; font-size: 38px">Robert Krook</h1>
+      <hr>
+      <p class="ubuntu-font" style="text-align: center; font-size: 24px;"><a class="link-style-underline" href="../index.html">Front page</a></p>
+    </div>
+
+    <div style="align-items: center; margin: auto; width: 85%;">
+      <hr>
+      <p class="ubuntu-font" style="font-size: 40px; text-align: center; text-decoration: underline;">Posts</p>
+      
+      <ul>
+        <li>
+          <div>
+            <h1 class="ubuntu-font" style="font-size: 26px;">
+              <a class="link-style-underline" href="../posts/quickercheck/quickercheck.html">
+                (June 5th, 2024): Parallel QuickCheck (QuickerCheck)
+              </a>
+            </h1>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+  </body>
+</html>

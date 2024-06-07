@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Start cookieyes banner -->
+    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/b707b912c35e0b1ddb871ab0/script.js"></script>
+    <!-- End cookieyes banner -->
+
+    <!--  https://wordpress.org/support/topic/cookieyes-and-google-analytics/
+    The comment by the cookieyes people here leads me to believe that I install the google analytics tag and the
+    cookieyes banner separately, and that unless a user gives consent, the cookie is blocked
+    -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B5L75TXSWG"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-B5L75TXSWG');
+    </script>
+   
+    <meta charset="utf-8">
+    <title>Robert Krook</title>
+
+    <!-- styling -->
+    <link rel="stylesheet" href="../../style/style.css">
+    <link rel="stylesheet" href="../../style/prism.css"/>
+
+    <!-- ubuntu sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+
+    <!-- landing page information with my face and some text -->
+    <div style="align-items: center; margin: auto; max-width: fit-content">
+      <img src="../resources/me.jpg" style="border-radius: 50%; margin: auto; display: block" class="landing-image">
+      <h1 class="ubuntu-font" style="text-align: center; font-size: 38px">Robert Krook</h1>
+      <hr>
+      <p class="ubuntu-font" style="text-align: center; font-size: 24px;">
+        <a class="link-style-underline" href="../../index.html">Front page</a> / 
+        <a class="link-style-underline" href="../../pages/posts.html">Posts</a>
+    </p>
+    </div>
+
+    <div style="align-items: center; margin: auto; width: 85%;">
+      <hr>
+      <p class="ubuntu-font" style="font-size: 40px; text-align: center; text-decoration: underline;">QuickerCheck</p>
+
+        <h1 class="ubuntu-font" style="font-size: 32px;">Why Parallel QuickCheck</h1>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+            I recently did some fun work on compiler testing together with Bo Joel Svensson and Koen Claessen, using QuickCheck (QC), and lamented over how slow
+            my tests executed. When using QC to test a compiler there are really a lot of things happening at once. Every test has to
+        </p>
+        <ul>
+            <li class="ubuntu-font" style="font-size: 20px;">
+                Generate an arbitrary program that is type correct
+            </li>
+            <li class="ubuntu-font" style="font-size: 20px;">
+                Compile the program
+            </li>
+            <li class="ubuntu-font" style="font-size: 20px;">
+                Run the program
+            </li>
+            <li class="ubuntu-font" style="font-size: 20px;">
+                Observe the output and make a judgement of its correctness
+            </li>
+        </ul>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+            Naturally, doing all of this takes some time. We are talking seconds rather than minutes, but still enough time that running a reasonable amount of
+            tests takes a non-trivial amount of time. All my tests are independent, so it made sense that I should be able to run them in parallel. Yet, QC
+            has no support for this.<br><br>
+
+            In some settings it does not make sense to introduce parallelism. In Python, for example, the authors of the Hypothesis library does not support parallelism.
+            They do not know what functions they are wrapping, and parallelism may introduce problems such as race conditions. In Haskell, this is not as much of a problem.
+            We are used to splitting up our code in its pure and effectful parts. Even effectful code might be threadsafe, or can easilly be made so.
+        </p>
+
+        <h1 class="ubuntu-font" style="font-size: 32px;">How does QuickCheck work?</h1>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+            Without going into too many of the gory details, this is roughly how the testing loop work.<br><br>
+            The test loop is parameterised over a state. This state contains information that the testing loop requires to operate, such as the random seed to
+            use for generating the next test case, statistics of how many tests we ran so far, and statistics we might have instructed our property to
+            collect (labels and such).<br><br>
+            While individual tests may be emberrasingly parallel, the test loop actually imposes an order to tests, as a result of
+            how QC computes sizes for your test case. QC tries to first generate small test cases, and then gradually increases them as you pass more and more
+            tests. The size grows from <code class="language-hs" style="font-size: 20px;">0</code> to
+            <code class="language-hs" style="font-size: 20px;">maxSize</code> (configurable), before it wraps around and begins anew.
+            This is implemented by deriving a size from the number of tests that you have passed so far (note: passed, not run).<br><br>
+
+            Look at the generator for lists</p>
+
+<pre><code class="language-hs" style="font-size: 20px;">listOf :: Gen a -> Gen [a]
+listOf g = sized $ \size -> do
+  n &lt;- chooseInt (0, size)
+  vectorOf n g
+</code></pre>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+            The generator begins by drawing upon the size parameter supplied by QC, using the sized function, and then generates a number between 0 and the size.
+            It then proceeds with generating a list of that length, using the supplied generator to generate the individual elements.<br>
+            What we should take away from this is that when we begin testing, and the size is zero, we can only generate the empty list.<br><br>
+
+            Now, consider the property below</p>
+
+<pre><code class="language-hs" style="font-size: 20px;">prop :: [Int] -> Property
+prop xs = not (null xs) ==> xs
+</code></pre>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+            This property generates arbitrary lists of integers, but only proceeds to test the property if the list is not empty. If an empty list is generated,
+            the list is discared and QC generates a new one. However, we have still passed the same number of tests, so the computed size is the same. This means
+            that in the case of the first test we ever run, we have no way of generating a non-empty list. How does QC deal with this?<br><br>
+
+            It is simple, but wonky. QC computes the size for a test case based not just on the number of tests that passed, but also on the number of tests that has been discarded
+            in a row. When a magic number of 10 test cases have been discarded, the size is increased by one. Now we can generate lists of length either 0 or 1, and can
+            test the property. Simplified, the function looks something like this</p>
+
+<pre><code class="language-hs" style="font-size: 20px;">computeSize :: Int -> Int
+computeSize numPassed numDiscarded = numPassed `mod` maxSize + (numDiscarded `div` 10)
+</code></pre>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+            There is some more things going into this to handle corner cases etc, but this is the important bit.<br>
+            This way of computing sizes results in a data dependency. We can not compute the size for the
+            <code class="language-hs" style="font-size: 20px;">ith</code> test before we have run and observed the
+            output of the first <code class="language-hs" style="font-size: 20px;">(i-1)</code> tests. Without knowing how many tests we have passed in total,
+            and how many tests we have recently discarded, we can not compute the size for the next test. Running tests in parallel immediately became
+            significantly trickier, because we do not know what sizes we should use for concurrent tests.
+        </p>
+
+        <h1 class="ubuntu-font" style="font-size: 32px;">What does QuickerCheck do?</h1>
+        <p class="ubuntu-font" style="font-size: 20px;">
+            QuickerCheck does a best effort attempt at running tests using the same sizes that would have been used, had they been run sequentially.
+            QuickerCheck run several instantiations of the sequential testing loop in parallel, each thread managing a testing state of their own. Each concurrent
+            tester will compute the size for its next test based on its own thread-local state (how many tests <em>this thread</em> passed or discarded so far), and
+            a stride. The stride will make sure that all testers together explore an approximation of the set of sizes that we would have, had we run
+            the tests sequentially.<br>
+            Once a bug is found, QuickerCheck is able to shrink it in parallel. It will spawn concurrent shrinkers that essentially try to find the next counterexample
+            from the current shrink candidates.<br><br>
+
+            The code can be found here: <a class="link-style-underline" href="https://github.com/Rewbert/quickcheck" style="color: blue;" target="_blank">https://github.com/Rewbert/quickcheck</a>
+             there are some hacks in place that are not meant to stay, so if you see something particularly wonky, do not worry. My usage of asynchronous exceptions, for example, is particularly wonky.<br>
+            The paper can be found here: <a class="link-style-underline" href="../../papers/quickercheck.pdf" style="color: blue;" target="_blank">quickercheck.pdf</a>
+        </p>
+
+        <h1 class="ubuntu-font" style="font-size: 32px;">Will it be merged?</h1>
+        <p class="ubuntu-font" style="font-size: 20px;">
+            Yes, the plan is to hopefully merge this in the next breaking change of QC, 2.16. There is no timeframe for when this will happen, but I expect it to take a while.
+            One module in particular (<code class="language-hs">Features.hs</code>) is completely commented out, and has to be restored before anything can be merged.
+            Not only does this work introduce a lot of changes to QC, it will break other packages that depend on QC (for example Tasty and hspec). Before any merge happens
+            there must be a strategy for solving these problems so that there are no disruptions in the ecosystem. Furthermore, what I have implemented may
+            change a lot before it makes its way into QC. So far I am the only developer that has laid eyes on this code, which is usually not a good thing.
+        </p>
+
+        <h1 class="ubuntu-font" style="font-size: 32px;">How can I try it out until then?</h1>
+        <p class="ubuntu-font" style="font-size: 20px;">
+            You can already try it out with very little effort, thankfully. The steps are<br>
+
+            <ol>
+                <li class="ubuntu-font" style="font-size: 20px;">
+                    Since it is not posted on hackage as a separate package you will need to redirect your project to fetch QuickCheck from my fork. You can do this by
+                    either editing your current cabal.project file, or creating a new one, and inserting
+
+<pre><code class="language-hs">source-repository-package
+  type: git
+  location: https://github.com/Rewbert/quickcheck.git
+  -- optionally also add this to point to a particular commit, otherwise you will always get the freshest master commit
+  -- tag: <commit hash of the version you want>
+</code></pre>
+                    This makes cabal look for the QuickCheck package on my github, rather than hackage.
+                </li><br>
+
+                <li class="ubuntu-font" style="font-size: 20px;">
+                    You need to add some extra flags when you build your project. Nothing goes wrong if you forget to use them, but your tests will not be
+                    multithreaded.<br>
+                    If you use cabal, you can add these to your .cabal-file<br><br>
+
+                    <code class="language-hs">ghc-options: -threaded -feager-blackholing -rtsopts</code>
+                </li><br>
+
+                <li class="ubuntu-font" style="font-size: 20px;">
+                    You now need to modify your code. It is enough to change your call to <code class="language-hs">quickCheck</code> with a call to <code class="language-hs">quickCheckPar</code>.<br><br>
+                </li>
+
+                <li class="ubuntu-font" style="font-size: 20px;">
+                    Finally, when you run your program, you need to pass in a runtime option that tells the runtime how many schedulers to create. You do
+                    this by running your cabal project like this<br><br>
+
+                    <code class="language-hs">cabal run my-exe -- +RTS -N[n]</code><br><br>
+
+                    where the last [n] can be either omitted completely (at which point GHC will fetch the number from your machine), or given by you, specifying
+                    exactly how many schedulers to use.
+                </li>
+            </ol>
+        </p>
+        <p class="ubuntu-font" style="font-size: 20px;">
+            Nothing in the existing QC API has been changed, so it should be a very simple drop-in replacement. The API is, however, extended. There are new top-level
+            invocation methods <code class="language-hs">quickCheckPar, quickCheckParResult, quickCheckParWith, quickCheckParWithResult</code>. These functions query
+            the runtime system for how many HECs there are, and spawn that many workers.<br><br>
+
+            The other bigger extension is that there are a few new flags that can be configured in the <code class="language-hs">Args</code> type. The new flags are<br>
+
+            <ul>
+                <li class="ubuntu-font" style="font-size: 20px;">
+                    <code class="language-hs">numTesters :: Int</code> for specifying how many concurrent testers there should be. <code class="language-hs">quickCheckPar</code>
+                    populates this field for you. Default <code class="language-hs">1</code>.
+                </li>
+
+                <li class="ubuntu-font" style="font-size: 20px;">
+                    <code class="language-hs">rightToWorkSteal :: Bool</code>, default <code class="language-hs">True</code>, for saying whether workers should be
+                    able to steal work from each other.
+                </li>
+
+                <li class="ubuntu-font" style="font-size: 20px;">
+                    <code class="language-hs">parallelShrinking :: Bool</code>, for saying whether we should shrink in parallel or not. Default <code class="language-hs">True</code>.
+                </li>
+
+                <li class="ubuntu-font" style="font-size: 20px;">
+                    <code class="language-hs">parallelTesting :: Bool</code>, for specifying whether we should run tests in parallel. Default <code class="language-hs">True</code>.
+                </li>
+
+                <li class="ubuntu-font" style="font-size: 20px;">
+                    <code class="language-hs">boundWorkers :: Bool</code>, default <code class="language-hs">False</code>, for specifying whether spawned workers should run in
+                    bound threads or not (<code class="language-hs">forkIO</code> vs <code class="language-hs">forkOS</code>).
+                </li>
+            </ul>
+        </p>
+        <p class="ubuntu-font" style="font-size: 20px;">
+            Also remember that all your workers will share the available resources. This includes much more than simply the pool of processors, but also RAM, caches,
+            disk space, etc. Also, the paper goes into some more detail of how workers are aborted, and how we can recover from that gracefully, etc.
+        </p>
+
+        <h1 class="ubuntu-font" style="font-size: 32px;">Results</h1>
+        <p class="ubuntu-font" style="font-size: 20px;">
+            Below follow some of the results presented in the paper. Unless otherwise stated, all results are collected with the <code class="language-hs">chatty</code>
+            flag set to <code class="language-hs">False</code>.<br>
+            The first thing we might want to know is whether we pay any performance penalty by using the new runtime sequentially. That is, if we are not interested in
+            parallel testing, does our sequential tests get slower? A full description of the different benchmarks below can be found in the paper.
+        </p>
+        <a href="sequential.png"><img src="sequential.png" style="height: 500px; width: auto"></a>
+        <p class="ubuntu-font" style="font-size: 20px;">
+            In general it appears that there is not much difference. Some tests are faster, and some are slightly slower. A number of 1 means that QuickerCheck required
+            exactly as much time as QC to complete the same task. A number greater than 1 means that QuickerCheck was slower and required more time.<br>
+            The <code class="language-hs">constant</code> benchmark is intended to measure the worst case behavior. It is a property that does nothing, meaning that
+            it spends all its time inside the test loop itself, and it was around 70% slower. All the other benchmarks actually do some work, and have much more modest
+            changes in performance. From these measurements I would conclude that you don't pay any noticeable penalty from using the new testing loop with just one core.<br><br>
+
+            Now, what if we add more cores. How much speedup do we gain?
+        </p>
+        <a href="speedup.png"><img src="speedup.png" style="height: 500px; width: auto"></a>
+        <p class="ubuntu-font" style="font-size: 20px;">
+            Up until the point where we exhaust our physical cores, we have quite a nice speedup. After that we can see that acceleration slows down. Some benchmarks saw
+            more than an 8x speedup, whereas others saw a more moderate 4x-6x speedup. Even the outlier <code class="language-hs">constant</code> saw a 3x speedup.<br><br>
+
+            QC is all about finding bugs. Can we find bugs faster? We evaluate this by planting a single bug in four of the benchmarks, and measure how long it takes for us to find it. We
+            do this several hundred times per core configuration, and take the median of those numbers.
+        </p>
+        <a href="buggy_median.png"><img src="buggy_median.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+            The results show that we do, indeed, find the bugs faster. There is no number of cores we can use that would give us a slower time than the sequential one. The
+            maximum speedup was roughly 10x for the compiler testing benchmark.<br><br>
+
+            Lastly, what about the quality of shrunk counterexamples? If we shrink them in parallel, we may end up with a different counterexample than the one we would have found
+            had we shrunk it sequentially. We evaluate this by computing the size of a counterexample (number of constructors in the term). We assume that the sequential sizes
+            are drawn from a ground truth distribution, and try to model the sizes collected using more cores as another distribution. We compute the difference between these
+            distributions and try to say whether they are equal or not. In the figure we refer to the sequential distribution as the deterministic one, and refer to the
+            parallel one as the greedy one. We only render the results where the specific choice of number of cores yielded the largest difference in distributions (i.e the worst results).
+            We do this for two benchmarks, the <code class="language-hs">compiler testing</code> one and the <code class="language-hs">verse</code> one.
+        </p>
+
+        <a href="compilertesting.png"><img src="compilertesting.png" style="height: 500px; width: auto;"></a>
+        <a href="verse.png"><img src="verse.png" style="height: 500px; width: auto;"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+            Ofcourse the quality of the shrinker plays a role in these results, and these shrinkers were written by domain experts. From these results it seems as
+            if the quality (sizes) of shrunk counterexamples is not largely affected by the choice of algorithm. If the parallel shrinker is faster, there does not
+            seem to be any problems with using it.
+        </p>
+
+        <h1 class="ubuntu-font" style="font-size: 32px;">Are there bugs?</h1>
+        <p class="ubuntu-font" style="font-size: 20px;">
+            Certainly. If you find any, please open an issue on my fork of QuickCheck, or send me an email at krookr@chalmers.se.
+        </p>
+    </div><br><br>
+
+    <script src="../javascript/prism.js"></script>
+  </body>
+</html>

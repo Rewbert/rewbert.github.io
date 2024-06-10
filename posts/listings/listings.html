@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Robert Krook</title>
+
+    <!-- styling -->
+    <link rel="stylesheet" href="../../style/style.css">
+    <link rel="stylesheet" href="../../style/prism.css"/>
+
+    <!-- ubuntu sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+
+    <!-- landing page information with my face and some text -->
+    <div style="align-items: center; margin: auto; max-width: fit-content">
+      <img src="../../resources/me.jpg" style="border-radius: 50%; margin: auto; display: block" class="landing-image">
+      <h1 class="ubuntu-font" style="text-align: center; font-size: 38px">Robert Krook</h1>
+      <hr>
+      <p class="ubuntu-font" style="text-align: center; font-size: 24px;">
+        <a class="link-style-underline" href="../../index.html">Front page</a> / 
+        <a class="link-style-underline" href="../../pages/posts.html">Posts</a>
+    </p>
+    </div>
+
+    <div style="align-items: center; margin: auto; width: 85%;">
+      <hr>
+      <h1 class="ubuntu-font" style="font-size: 40px; text-align: center; text-decoration: underline;">Haskell Listing style</h1>
+
+      <p class="ubuntu-font" style="font-size: 20px;">
+        I always find myself digging through piles of old LaTeX documents to find the listings style I prefer for Haskell code. To save myself some future looking,
+        I will just post it here. I hope it might help someone else. It is <b>not complete</b>, but I will update this page when I make changes.<br><br>
+        How listings work internally is still arcane to me, and I left comments for my future self.
+      </p>
+
+<pre><code>
+    \usepackage{listings}
+    \lstdefinestyle{haskell}{
+      frame=none,
+      xleftmargin=2pt,
+      stepnumber=1,
+      numbers=left,
+      numbersep=5pt,
+      numberstyle=\ttfamily\tiny\color[gray]{0.3},
+      belowcaptionskip=\bigskipamount,
+      alsoletter={=<>-|{}},
+      captionpos=b,
+      % you can, inside an lstlisting environment, escape the formatting by enclosing text in these tokens
+      escapeinside={*'}{'*},
+      % you can change these colors to your preferred choice
+      keywordstyle=[2]{\color{teal}},
+      keywordstyle=[3]{\color{violet}},
+      keywordstyle=[1]{\bf\color{purple}},
+      keywordstyle=[4]{\color{blue}},
+      keywords=[3]{INLINE, PRAGMA, NOINLINE, RULES, SPECIALISE, forall}, % add any more you might need
+      % put types and constructors here
+      keywords=[4]{Int, Bool, Double, Maybe, Either, Monad, Map, String, ByteString, IO, Proxy, KnownSymbol, Show, Read, IORef, Num, True, False, MVar, Word32, Word64, Property},
+      % actual keywords here
+      morekeywords=[1]{do, if, then, else, case, of, class, data, newtype, instance, where, deriving, import, let, in, module, qualified, type},
+      % keywords that are not words go here
+      % my experimentation leads me to believe that symbols that are substrings of other
+      % symbols, e.g. = is a substring of ==>, has to go before the longer one.
+      % Otherwise e.g. only the == part of ==> would get highlighted.
+      otherkeywords={<-, ->, <>, ::, \$, [, ], \,, =, =>, ==>, |, \{, \}, (, ), -\#, \#-, @},
+      % and then again here, if we want to assign them a specific phase for coloring
+      morekeywords=[2]{-\#, \#-, \{, \#, \}},
+      % if you want type operators to be blue, like the types, you can put them here. In this case, the symbol @ will be blue
+      morekeywords=[4]{@},
+      tabsize=2,
+      comment=[l]{--},
+      commentstyle=\color{teal}, % can add other options here, e.g. \it
+      stringstyle=\mdseries\rmfamily,
+      showspaces=false,
+      % change orange to another color of your choice, to color strings
+      delim=[s][\ttfamily\color{orange}]{"}{"},
+      columns=flexible,
+      basicstyle=\small\sffamily,
+      showstringspaces=false,
+    }
+</code></pre>
+
+    <p class="ubuntu-font" style="font-size: 20px;">
+      Below follow an example of what rendered code looks like in a paper
+    </p>
+
+    <a href="highlighting.png" target="_blank">
+      <img src="highlighting.png"
+           alt="Example of what the Haskell Listing style looks like">
+    </a>
+
+    </div><br><br>
+
+    <!-- footer -->
+    <hr style="max-width: 300px;"><br>
+
+    <div style="display: flex; justify-content: center;">
+      <a href="https://github.com/Rewbert" target="_blank">
+        <img src="../../github-logo/github-mark.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-right: 10px;">
+      </a>
+
+      <a href="https://www.linkedin.com/in/robert-krook-14ab97121/" target="_blank">
+        <img src="../../LinkedIn-Logos/LI-In-Bug.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px; padding-right: 10px;">
+      </a>
+
+      <a href="https://twitter.com/Rewbert" target="_blank">
+        <img src="../../x-logo/logo-black.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px;">
+      </a>
+    </div><br>
+
+    <script src="../../javascript/prism.js"></script>
+  </body>
+</html>

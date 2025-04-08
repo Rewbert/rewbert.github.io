@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Robert Krook - Posts - Bostadsmarknaden i Göteborg</title>
+
+    <!-- styling -->
+    <link rel="stylesheet" href="../../../style/style.css">
+    <link rel="stylesheet" href="../../../style/prism.css"/>
+
+    <!-- ubuntu sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+
+    <!-- landing page information with my face and some text -->
+    <div style="align-items: center; margin: auto; max-width: fit-content">
+      <img src="../../../resources/me.jpg" style="border-radius: 50%; margin: auto; display: block" class="landing-image" alt="image depicting Robert Krook, a functional programmer based in Gothenburg">
+      <h1 class="ubuntu-font" style="text-align: center; font-size: 38px">Robert Krook</h1>
+      <hr>
+      <p class="ubuntu-font" style="text-align: center; font-size: 24px;">
+        <a class="link-style-underline" href="../../../index.html">Front page</a> / 
+        <a class="link-style-underline" href="../../../pages/posts.html">Posts</a>
+    </p>
+    </div>
+
+    <div style="align-items: center; margin: auto; width: 85%;">
+      <hr>
+      <p class="ubuntu-font" style="font-size: 40px; text-align: center; text-decoration: underline;">Göteborgs bostadsmarknad</p>
+
+        <!-- <h1 class="ubuntu-font" style="font-size: 32px;">Why Parallel QuickCheck</h1> -->
+
+        <p class="ubuntu-font" style="font-size: 16px;">
+          1 april 2025
+        </p>
+
+      <p class="ubuntu-font" style="font-size: 20px;">
+        När jag försökte uppskatta värdet på min lägenhet slutade det med att jag byggde en liten crawler som samlade in historisk data från en av de stora bostadsförmedlingssidorna i Sverige.
+Jag läser ibland rapporter om hur bostadsmarknaden utvecklas, men jag känner ofta att jag hellre vill se den faktiska datan själv – gärna för ett mer avgränsat område.
+      </p>
+      
+      <p class="ubuntu-font" style="font-size: 20px;">
+        Innan vi ser på alla graferna så kommer en graf som plottar KPI gentemot Riksbankens referensränta. Poängen med den här grafen är
+        att under de senaste 3-4 åren har vi haft hög inflation, vilket har fått riksbanken att höja referensräntan. Det här har såklart en påverkan på bostadspriserna.
+        Det är nog en stor del av förklaringen för varför vissa av de graferna som kommer har lite drastiska svängningar de senaste åren.
+      </p>
+
+      <p class="ubuntu-font" style="font-size: 20px;">
+        Grafen är skapad av mig men datan kommer från <a href="https://www.scb.se/" target="blank">SCB</a> och <a href="https://www.riksbank.se/" target="blank">Sveriges Riksbank</a>.
+      </p>
+
+      <a href="../inflation.png"><img src="../inflation.png" style="height: 500px; width: auto"></a>
+        <h1 class="ubuntu-font" style="font-size: 32px;">Om datan</h1>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Från enbart Göteborg har vi cirka 70000 datapunkter. Om vi bryter ned det över hur många fastigheter som har sålts per år får vi den här grafen
+        </p>
+
+        <a href="../soldunitsperyear.png"><img src="../soldunitsperyear.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Om vi bryter ned det efter vilka olika typer av fastigheter det rör sig om så får vi den här grafen
+        </p>
+
+        <a href="../soldunitsperyear_by_type.png"><img src="../soldunitsperyear_by_type.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Vi ser att majoriteten av alla sålda objekt är lägenheter. Jag gissar att det här är fallet i alla större städer (Göteborg är ju en storstad med Svenska mått).
+          För att få plats med så många människor på samma yta måste man bo i lägenheter då de är mycket mer platseffektiva.
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Om vi plockar bort all data som inte rör en lägenhet så kan vi bättre se
+          vad för andra typer av fastigheter som sålts.
+        </p>
+
+        <a href="../soldunitsperyear_by_type_no_apartment.png"><img src="../soldunitsperyear_by_type_no_apartment.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Det verkar som att antalet försäljningar av hus har förblivit relativt oförändrat från år till år. Något som är intressant är att kategorin för TWIN_HOUSE tappar popularitet efter 2018 och blir
+          ersatt av ROW_HOUSE. Jag antar att ett parhus även är ett radhus, fast där längden är 2. Jag gissar att dessa kategorier matas in av mäklarna som stoppar upp annonserna, så det är såklart
+          lite inconsistencies. ROW_HOUSE förekommer inte alls före 2019, och när den blev tillagd verkar det som att mäklarna föredrog den framför TWIN_HOUSE.
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Hur stora är fastigheterna som har sålts i Göteborg? Storleken på en bostad benämns i kvadratmeter. Om vi plottar storlekarna som ett histogram så får vi denna grafen
+        </p>
+
+        <a href="../livingsize_histogram.png"><img src="../livingsize_histogram.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Varje stapel representerar inte en ensam storlek, utan ett spann av storlekar. I det här fallet representerar varje stapel ett spann på 1.71 kvadratmeter, så toppen vid 54.8 kvadratmeter hänvisar
+          faktiskt till spannet av lägenheter vars storlek är mellan 54.8 och 56.51 kvadratmeter. Trots att mina förväntningar var att det skulle finnas en tydlig peak så trodde jag inte att en ensam stapel skulle
+          stå ut så här. Lite poänger att ta med sig
+
+          <ul>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Den vanligaste storleken av fastigheter som såldes i göteborg de senaste 12 åren har varit mellan 54.8 och 56.51 kvadratmeter</p></li>
+            <li><p class="ubuntu-font" style="font-size: 20px;">En solklar majoritet av alla fastigheter som såldes var under 100 kvadratmeter</p></li>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Den minsta fastigheten som såldes var bara 6 kvadratmeter, medans den största var 434 kvadratmeter</p></li>
+          </ul>
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Om vi tittar närmare på datapunkten för fastigheten som var 6 kvadratmeter så ser vi att det är en sjöbod som såldes under 2014 för 795 000:-.
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Om vi plottar antalet rum som ett histogram så får vi denna grafen
+        </p>
+
+        <a href="../number_rooms_histogram.png"><img src="../number_rooms_histogram.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Det blir väldigt tydligt att de två vanligaste antalen rum som en såld fasighet i Göteborg har haft är 2 eller 3 rum. I datasettet verkar det finnas en fastighet som har 42 rum. När jag tittar närmare
+          på den här enskilda punkten så är det egentligen en lägenhet i centrala Göteborg på 42 kvadratmeter. Det verkar som att mäklaren har stoppat in siffrorna fel. 42 kvadratmeter indikerar att det mest troliga är att
+          det är en lägenhet som har 1 eller 1.5 rum, eller att det är en väldigt liten 2a.
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Eftersom försäljningen av lägenheter är en sådan stor del av datasettet så plottar vi samma bilder utan dem. Nedan följer två grafer som är renderade ifrån enbart datapunkter som tillhör kategorin HOUSE.
+        </p>
+
+        <a href="../livingsize_histogram_house.png"><img src="../livingsize_histogram_house.png" style="height: 500px; width: auto"></a>
+        <a href="../number_rooms_histogram_house.png"><img src="../number_rooms_histogram_house.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          <ul>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Den vanligaste storleken på ett hus är mellan 134.7 och 136.3 kvadratmeter</p></li>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Storleken på hus är mer jämnt fördelade</p></li>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Det minsta huset som såldes var bara 24 kvadratmeter, medans det största var 434 kvadratmeter</p></li>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Det vanligaste antalet rum i sålda hus är 5 och 6, och det största antalet rum i ett sålt hus är 16</p></li>
+          </ul>
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          När jag tittar närmare på datapunkten för 16-rums huset så ser jag att det är ett hus nära Johanneberg i Göteborg. Huset såldes i januari 2021 för 11 500 000:- SEK. Det har 317 kvadratmeter
+          boarea och ytterligare 143 kvadratmeter biarea. Nedan följer ett histogram över biareor i sålda hus.
+        </p>
+
+        <a href="../biarea_histogram.png"><img src="../biarea_histogram.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Det är inte helt solklart varför vi har dessa tydliga toppar. Det kanske kan vara ett resultat av detaljplaner? En detaljplan i ett område kan ställa
+          krav på hur byggnader (t.ex garage) ska se ut, och då slutar det med att många fastigheter har liknande siffror kanske.
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Den största biarean i datasettet är 250 kvadratmeter och tillhör ett hus som såldes i Hovås. Huset har 152 kvadratmeter boarea, och då ytterligare 250 kvadratmeter i biarea. Det såldes 2024 för 9 200 000:- SEK.
+          Eftersom försäljningen är såpass ny finns fortfarande ritningar och liknande kvar i annonsen, och där framgår det att huset har en enorm inredd källare.
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Eftersom majoriteten av sålda fastigheter är lägenheter så är det intressant att se hur deras avgifter har förändrats över tid. En bostadrättsförening har ofta lån, varav en
+          bostadrättsinnehavare kan vara känslig mot ränteläget även om denne inte har ett eget bolån. När räntan går upp går förmodligen räntan på föreningens lån upp, och föreningen
+          behöver höja avgifterna för att ha råd med sina lån. Nedan följer en graf som visar hur den genomsnittliga avgiften på sålda lägenheter har förändrats över tid
+        </p>
+
+        <a href="../feepearyear.png"><img src="../feepearyear.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          De tre senaste åren ser vi att avgifterna har höjts med kanske 15% eller däromkring. Med tanke på den dåvarande inflationen och ränteläget så är det inte förvånande, men ändå intressant att se.
+        </p>
+
+        <h1 class="ubuntu-font" style="font-size: 32px;">Priser</h1>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Då datan är av så väldigt varierande karaktär, kan vi enkelt dra slutsatser om priser över tid? Jag tycker att storleken av datasettet kan vara nog
+          för att kunna observera trender över tid utan att behöva anpassa oss för olika storlekar, fastighetstyper, etc. Om jag plottar det genomsnittliga priset per
+          kvadratmeter per månad så får vi denna grafen
+        </p>
+
+        <a href="../avgpriceperm2month.png"><img src="../avgpriceperm2month.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Det verkar ha varit en stadig ökning i priser från 2013 och framåt. Detta är någonting som jag själv kommer ihåg från de åren innan jag slog till och köpte min lägenhet 2017.
+          I mitten av 2017 började det framkomma lite oro hurvida vi var i en bostadsbubbla eller inte. Detta hade en liten effekt på priserna, men den effekten avtog ganska snabbt.
+          Pandemin verkar ha haft en liten effekt på priserna i Göteborg, men Putins invasion av Ukraina följt av inflationskrisen har verkligen påverkat priserna.
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Om vi plottar priserna på årsbasis istället för månadsbasis får vi denna grafen
+        </p>
+
+        <a href="../avgpriceperm2year.png"><img src="../avgpriceperm2year.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Förändringarna per år är mindre dramatiska. Det är dock fortfarande otroligt att se att i t.ex 2014 var det genomsnittliga priset per kvadratmeter ungefär 32 000:-,
+          och bara året efter var det 39 000:-. En ökning på mer än 20%!
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Datasettet innehåller data om både utropspris och slutpris. Vi kan se hur utropspris och slutpris skiljer sig åt i grafen nedan
+        </p>
+
+        <a href="../diffaskvsfinal.png"><img src="../diffaskvsfinal.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Under varje år som vi har data kan vi se att slutpriserna alltid var högre än utropspriserna. Bara nyligen har skillnaden krympt såpass att det nästan har varit tvärtom.
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Den genomsnittliga säljaren får mer än vad de bad om. Om vi plottar dessa skillnader (i procent) som ett histogram så får vi denna grafen
+        </p>
+
+        <a href="../price_deviation_hist.png"><img src="../price_deviation_hist.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          <ul>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Den vanligaste skillnaden i utropspris och slutpris är 0%, dvs att en fastighet har sålts för vad utropspriset var</p></li>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Majoriteten av fastigheterna har sålts för mer än vad utropspriset var, men det visste vi redan från den tidigare grafen</p></li>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Om vi struntar i toppen vid 0% så verkar det som att den vanligaste skillnaden i utropspris och slutpris är ca 6%</p></li>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Vissa fastigheter sålde för nästan 50% mer än vad utropspriset var, och vissa sålde för nästan 20% mindre</p></li>
+          </ul>
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Om vi normaliserar priset mot medianlönen i Sverige för samma år får vi denna grafen. Notera att jag inte kunde hitta medianlön för 2013, 2024, och 2025. Medianlönen för 2024 borde snart vara tillgänglig då det är deklarationstider nu.
+        </p>
+
+        <a href="../avgpriceperm2year-mediansalaries.png"><img src="../avgpriceperm2year-mediansalaries.png" style="height: 500px; width: auto"></a>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          <ul>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Formen på denna graf är väldigt lik den den där priserna inte är normaliserade</p></li>
+            <li><p class="ubuntu-font" style="font-size: 20px;">Denna graf bekräftar att priserna faktiskt rör sig upp och ned från år till år, och att t.ex ökningarna inte bara är ett resultat av högre medianlöner. Om priserna bara höjdes i takt med medianlönen så skulle alla staplarna vara lika höga</p></li>
+          </ul>
+        </p>
+
+        <p class="ubuntu-font" style="font-size: 20px;">
+          Slutsumman är att jag hade jättekul med att titta på all denna datan och dessa graferna. Jag är dock helt övertygad om att min lägenhet inte är värd vad jag gav för den 2017, tyvärr. Hör av er om
+          det är någon annan rendering av datan som ni tycker vore intressant att se, så slänger jag upp det här på hemsidan.
+        </p>
+
+      </div><br><br>
+
+    <!-- footer -->
+    <hr style="max-width: 300px;"><br>
+
+    <div style="display: flex; justify-content: center;">
+      <a href="https://github.com/Rewbert" target="_blank">
+        <img src="../../../github-logo/github-mark.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-right: 10px;">
+      </a>
+
+      <a href="https://www.linkedin.com/in/robert-krook-14ab97121/" target="_blank">
+        <img src="../../../LinkedIn-Logos/LI-In-Bug.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px; padding-right: 10px;">
+      </a>
+
+      <a href="https://twitter.com/Rewbert" target="_blank">
+        <img src="../../../x-logo/logo-black.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px;">
+      </a>
+    </div><br>
+
+    <script src="../../../javascript/prism.js"></script>
+  </body>
+</html>

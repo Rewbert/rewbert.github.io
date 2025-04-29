@@ -136,7 +136,7 @@ def isHTMLFile(f) :
     """
     return getFileExtension(f) in HTML_EXTENSIONS
 
-def createExtensionSet(includeHTML, includePDF, additionalExt) :
+def createExtensionSet(includeHTML, includePDF, includePNG, additionalExt) :
     """Creates a set of file extensions for the file types to include
     in the sitemap.
 
@@ -153,6 +153,9 @@ def createExtensionSet(includeHTML, includePDF, additionalExt) :
         
     if includePDF :
         fileExtensionsToInclude.add("pdf")
+
+    if includePNG :
+        fileExtensionsToInclude.add("png")
     
     return fileExtensionsToInclude
     
@@ -293,6 +296,7 @@ def xmlSitemapEntry(f, baseUrl, dateString, dropExtension=False, dateOnly=False)
     dateString - lastmod date correctly formatted
     dropExtension - true to drop extensions of .html from the filename in urls
     """
+    print(f)
     return xmlSitemapEntryTemplate.format(
         urlstring(xmlEscapeCharacters(f), baseUrl, dropExtension),
         removeTime(dateString) if dateOnly else dateString
@@ -311,7 +315,7 @@ def writeTextSitemap(files, baseUrl, dropExtension=False) :
             sitemap.write(urlstring(f, baseUrl, dropExtension))
             sitemap.write("\n")
             
-def writeXmlSitemap(files, baseUrl, dropExtension=False, dateOnly=False) :
+def writeXmlSitemap(files, baseUrl, dropExtension=False, includePNG=False, dateOnly=False) :
     """Writes an xml sitemap to the file sitemap.xml.
 
     Keyword Arguments:
@@ -321,7 +325,10 @@ def writeXmlSitemap(files, baseUrl, dropExtension=False, dateOnly=False) :
     """
     with open("sitemap.xml", "w") as sitemap :
         sitemap.write('<?xml version="1.0" encoding="UTF-8"?>\n')
-        sitemap.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
+        sitemap.write('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"')
+        if includePNG:
+            sitemap.write('\n        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"')
+        sitemap.write('>\n')
         for f in files :
             sitemap.write(xmlSitemapEntry(f, baseUrl, lastmod(f), dropExtension, dateOnly))
             sitemap.write("\n")
@@ -378,7 +385,8 @@ def main(
         additionalExt,
         dropExtension,
         dateOnly,
-        excludePaths
+        excludePaths,
+        includePNG
     ) :
     """The main function of the generate-sitemap GitHub Action.
 
@@ -415,7 +423,7 @@ def main(
         excludePaths = { adjust_path(path) for path in excludePaths}
     blockedPaths = set(parseRobotsTxt()) | excludePaths
     
-    allFiles = gatherfiles(createExtensionSet(includeHTML, includePDF, additionalExt))
+    allFiles = gatherfiles(createExtensionSet(includeHTML, includePDF, includePNG, additionalExt))
     files = [ f for f in allFiles if not robotsBlocked(f, blockedPaths) ]
     urlsort(files, dropExtension)
 
@@ -423,7 +431,7 @@ def main(
     if pathToSitemap[-1] != "/" :
         pathToSitemap += "/"
     if sitemapFormat == "xml" :
-        writeXmlSitemap(files, baseUrl, dropExtension, dateOnly)
+        writeXmlSitemap(files, baseUrl, dropExtension, includePNG, dateOnly)
         pathToSitemap += "sitemap.xml"
     else :
         writeTextSitemap(files, baseUrl, dropExtension)
@@ -445,7 +453,8 @@ if __name__ == "__main__" :
         additionalExt = set(sys.argv[6].lower().replace(",", " ").replace(".", " ").split()),
         dropExtension = sys.argv[7].lower() == "true",
         dateOnly = sys.argv[8].lower() == "true",
-        excludePaths = set(sys.argv[9].replace(",", " ").split())
+        excludePaths = set(sys.argv[9].replace(",", " ").split()),
+        includePNG = sys.argv[10].lower() == "true"
     )
 
     

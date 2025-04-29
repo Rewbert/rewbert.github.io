@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://krook.dev/</loc>
 <lastmod>2024-06-10</lastmod>
@@ -15,7 +14,7 @@
 </url>
 <url>
 <loc>https://krook.dev/pages/posts</loc>
-<lastmod>2025-04-01</lastmod>
+<lastmod>2025-04-08</lastmod>
 </url>
 <url>
 <loc>https://krook.dev/pages/publications</loc>
@@ -35,11 +34,11 @@
 </url>
 <url>
 <loc>https://krook.dev/papers/hui2022sparse.pdf</loc>
-<lastmod>2025-04-08</lastmod>
+<lastmod>2025-04-29</lastmod>
 </url>
 <url>
 <loc>https://krook.dev/papers/krook2022creating.pdf</loc>
-<lastmod>2025-04-08</lastmod>
+<lastmod>2025-04-29</lastmod>
 </url>
 <url>
 <loc>https://krook.dev/papers/lic.pdf</loc>
@@ -63,10 +62,7 @@
 </url>
 <url>
 <loc>https://krook.dev/posts/hmarket/hmarket</loc>
-<lastmod>2025-04-03</lastmod>
-<image:image>
-<image:loc>https://krook.dev/posts/hmarket/hmarket/avgpriceperm2month.png</image:loc>
-</image:image>
+<lastmod>2025-04-08</lastmod>
 </url>
 <url>
 <loc>https://krook.dev/posts/listings/listings</loc>

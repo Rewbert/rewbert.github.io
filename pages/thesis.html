@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="robots" contents="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="The Progress of Robert Krook's PhD Thesis.">
+    <title>Robert Krook - PhD Thesis</title>
+    <link rel="canonical" href="https://www.krook.dev/pages/thesis.html">
+    <link rel="icon" href="/resources/me.jpg" type="image/jpeg">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Robert Krook - Thesis">
+    <meta property="og:description" content="The Progress of Robert Krook's PhD Thesis.">
+    <meta property="og:url" content="https://www.krook.dev/pages/thesis.html">
+    <meta property="og:image" content="https://www.krook.dev/resources/me.jpg">
+    <meta property="og:site_name" content="Robert Krook">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Rewbert">
+    <meta name="twitter:title" content="Robert Krook - Thesis">
+    <meta name="twitter:description" content="The Progress of Robert Krook's PhD Thesis.">
+    <meta name="twitter:image" content="https://www.krook.dev/resources/me.jpg">
+
+    <!-- JSON-LD: Person -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Robert Krook",
+      "url": "https://www.krook.dev",
+      "image": "https://www.krook.dev/resources/me.jpg",
+      "jobTitle": "PhD Student / Haskell Developer",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Chalmers University of Technology"
+      },
+      "sameAs": [
+        "https://github.com/Rewbert",
+        "https://www.linkedin.com/in/robert-krook-14ab97121/",
+        "https://twitter.com/Rewbert"
+      ]
+    }
+    </script>
+
+    <!-- styling -->
+    <link rel="stylesheet" href="../style/style.css">
+
+    <!-- ubuntu sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+
+    <!-- landing page information with my face and some text -->
+    <div style="align-items: center; margin: auto; max-width: fit-content">
+      <img src="../resources/me.jpg" style="border-radius: 50%; margin: auto; display: block" class="landing-image" alt="image depicting Robert Krook, a functional programmer based in Gothenburg">
+      <h1 class="ubuntu-font" style="text-align: center; font-size: 38px">Robert Krook</h1>
+      <hr>
+      <p class="ubuntu-font" style="text-align: center; font-size: 24px;"><a class="link-style-underline" href="../index.html">Front page</a></p>
+    </div>
+
+    <div style="align-items: center; margin: auto; width: 85%;">
+      <hr>
+      <p class="ubuntu-font" style="font-size: 40px; text-align: center; text-decoration: underline">My PhD Thesis</p>
+      <p class="ubuntu-font" style="font-size: 24px; width: 90%; margin: auto">
+        On this site I will collect information about my thesis that might be of interest to my committee members and opponent.
+      </p>
+      <br>
+      
+      <p class="ubuntu-font" style="font-size: 24px; width: 90%; margin: auto;">
+        The format of a PhD thesis at Chalmers is somewhat unusual. The student writes what is called a kappa. This is a section at the beginning of the
+        thesis that presents an introduction, relevant background, and conclusions. After this, the papers the student has chosen to include in their
+        thesis follow one by one. I am in the process of writing my kappa right now, so I don't yet have a draft to put here. However, I have
+        picked my thesis statement. The grand question that has constantly been in the back of my head during my PhD is
+      </p>
+      <br>
+
+      <blockquote class="ubuntu-font thesis-quote">
+        <p>
+            Can a single high-level Haskell program be written once and automatically partitioned, compiled, and deployed across a heterogeneous
+            network of devices, consisting of MCUs, TEEs, cloud nodes, with the type system statically enforcing the safety properties of each node?
+        </p>
+      </blockquote>
+
+      <p class="ubuntu-font" style="font-size: 24px; width: 90%; margin: auto;">
+        I have worked towards this vision, and if I narrow down precisely what my thesis has done to answer this question, my thesis statement becomes
+      </p>
+
+      <blockquote class="ubuntu-font thesis-quote">
+        <p>
+            This thesis investigates the feasibility of using Haskell's abstractions and compiler infrastructure to target execution environments the
+            language was not necessarily intended for, such as resource-constrained microcontrollers, trusted execution environments, and distributed
+            systems, and demonstrates that tools such as EDSLs, type-directed partitioning, and graph serialisation are sufficient to bridge the gap.
+        </p>
+      </blockquote>
+
+      <p class="ubuntu-font" style="font-size: 24px; width: 90%; margin: auto;">
+        I will put a PDF of my thesis here as it becomes more ready, but for now, I reference the papers that I intend to include in the thesis.
+      </p>
+      <br>
+      <hr>
+      <br>
+
+      <ul>
+        <li>
+            <div>
+              <h1 class="ubuntu-font" style="font-size: 26px;">
+                <a class="link-style-underline" href="../papers/cloudHaskell2026.pdf" target="_blank">
+                  CloudMicroHaskell: Direct-Style Distributed Haskell via Runtime Graph Serialisation
+                </a>
+              </h1>
+              <p class="ubuntu-font" style="font-size: 20px;">Robert Krook, Lennart Augustsson<br>
+              In Submission to Haskell 2026<br><br>
+            The version of the paper linked here is the one submitted to the Haskell Symposium. Since the submission, the authors have worked more
+            on the paper and as a result the evaluation has substantially changed. For example, the time taken to spawn a process has been reduced to 60 us
+            compared to the 2100 us reported in the paper. Additionally, there is another case study presented where a heterogeneous network of devices
+            run nodes (laptops and MCUs). This new case study is intended to give a better answer to "why MicroHaskell" than the one presented in the
+            paper. The link here will be updated to lead to the new version of the paper as soon as possible, but no later than the camera-ready deadline
+            of the Haskell Symposium.</p>
+            </div>
+          </li>
+
+        <li>
+          <div>
+            <h1 class="ubuntu-font" style="font-size: 26px;">
+              <a class="link-style-underline" href="../papers/thesispartitioning.pdf" target="_blank">
+                Welcome to the Parti(tioning) (Functional Pearl): Using Rewrite Rules and Specialisation to Partition Haskell Programs
+              </a>
+            </h1>
+            <p class="ubuntu-font" style="font-size: 20px;">Robert Krook, <a href="https://loafey.se/" class="link-style-underline" style="text-decoration: none; color: black;" target="_blank">Samuel Hammersberg</a><br>
+            Haskell 2024</p>
+          </div>
+        </li>
+
+        <li>
+          <div>
+            <h1 class="ubuntu-font" style="font-size: 26px;">
+              <a class="link-style-underline" href="../papers/thesishastee.pdf" target="_blank">
+                HasTee: Programming Trusted Execution Environments with Haskell
+              </a>
+            </h1>
+            <p class="ubuntu-font" style="font-size: 20px;">Abhiroop Sarkar, Robert Krook, Alejandro Russo, Koen Claessen<br>
+            Haskell 2023
+            </p>
+          </div>
+        </li>
+
+        <li>
+          <div>
+            <h1 class="ubuntu-font" style="font-size: 26px;">
+              <a class="link-style-underline" href="../papers/thesisscoria.pdf" target="_blank">
+                Creating a Language for Writing Real-Time Applications for the Internet of Things
+              </a>
+            </h1>
+            <p class="ubuntu-font" style="font-size: 20px">Robert Krook, John Hui, Bo Joel Svensson, Stephen A. Edwards, Koen Claessen<br>
+            Memocode 2022</p>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+    <!-- footer -->
+    <br><hr style="max-width: 300px;"><br>
+
+    <div style="display: flex; justify-content: center;">
+      <a href="https://github.com/Rewbert" target="_blank">
+        <img src="../github-logo/github-mark.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-right: 10px;">
+      </a>
+
+      <a href="https://www.linkedin.com/in/robert-krook-14ab97121/" target="_blank">
+        <img src="../LinkedIn-Logos/LI-In-Bug.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px; padding-right: 10px;">
+      </a>
+
+      <a href="https://twitter.com/Rewbert" target="_blank">
+        <img src="../x-logo/logo-black.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px;">
+      </a>
+    </div><br>
+
+  </body>
+</html>

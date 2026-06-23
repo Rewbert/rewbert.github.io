@@ -33,3 +33,17 @@
 .link-style-underline:hover::before {
   transform: scaleX(1);
 }
+
+.thesis-quote {
+  width: 80%;
+  margin: 24px auto;
+  padding: 12px 24px;
+  border-left: 4px solid #000;
+  font-size: 28px;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.thesis-quote p {
+  margin: 0;
+}

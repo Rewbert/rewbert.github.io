@@ -47,3 +47,17 @@
 .thesis-quote p {
   margin: 0;
 }
+
+.post {
+  width: min(85vw, 760px);
+  margin-inline: auto;
+}
+
+.post img {
+  width: 100% !important;
+  max-width: 100%;
+  height: auto !important;
+  display: block;
+  margin: 1em auto;
+  box-sizing: border-box;
+}

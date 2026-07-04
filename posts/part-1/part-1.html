@@ -722,7 +722,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       the STM32L5-family of devices into there.</p>
       <div class="sourceCode" id="cb17"><pre
       class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:ARM-software/CMSIS_5.git vendor/CMSIS</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> vendor vendor/CMSIS/Device</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> vendor/CMSIS/Device</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ST</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ST</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:STMicroelectronics/cmsis-device-l5.git STM32L5</span></code></pre></div>
@@ -793,10 +793,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       at a later stage, the linker will say that the default handler is
       the systick handler. We amend our vector table like this</p>
       <div class="sourceCode" id="cb20"><pre
-      class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> systick_handler<span class="op">(</span><span class="dt">void</span><span class="op">);</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> default_handler<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{}</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+      class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> default_handler<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{}</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> systick_handler<span class="op">(</span><span class="dt">void</span><span class="op">) __attribute__((weak, alias("default_handler")));</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> isr_vector<span class="op">[</span>VECTOR_SIZE_WORDS<span class="op">]</span> __attribute__<span class="op">((</span>section<span class="op">(</span><span class="st">&quot;.isr_vector&quot;</span><span class="op">)))</span> <span class="op">=</span> <span class="op">{</span></span>
@@ -954,7 +954,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>MODER <span class="op">&amp;=</span> <span class="op">~(</span>GPIO_MODER_MODE7 <span class="op">|</span> GPIO_MODER_MODE8<span class="op">);</span></span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>MODER <span class="op">|=</span>  <span class="op">(</span>GPIO_MODER_MODE7_1 <span class="op">|</span> GPIO_MODER_MODE8_1<span class="op">);</span></span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">/* 0 = pull-up */</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">/* 01 = pull-up */</span></span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>PUPDR <span class="op">&amp;=</span> <span class="op">~(</span>GPIO_PUPDR_PUPD7 <span class="op">|</span> GPIO_PUPDR_PUPD8<span class="op">);</span></span>
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>PUPDR <span class="op">|=</span>  <span class="op">(</span>GPIO_PUPDR_PUPD7_0 <span class="op">|</span> GPIO_PUPDR_PUPD8_0<span class="op">);</span></span>
 <span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>

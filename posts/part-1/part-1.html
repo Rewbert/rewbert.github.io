@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>Robert Krook - Posts - </title>
+    <link rel="canonical" href="">
+    <link rel="icon" href="/resources/me.jpg" type="image/jpeg">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:site_name" content="Robert Krook">
+    <meta property="article:published_time" content="">
+    <meta property="article:author" content="https://www.krook.dev">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Rewbert">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:image" content="">
+
+    <!-- JSON-LD: Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "",
+      "description": "",
+      "keywords": "",
+      "author": {"@type": "Person", "name": "Robert Krook", "url": "https://www.krook.dev"},
+      "datePublished": "",
+      "url": "",
+      "inLanguage": "en"
+    }
+    </script>
+
+    <!-- styling -->
+    <link rel="stylesheet" href="../../style/style.css">
+
+    <!-- ubuntu sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+    <!-- post typography: keeps markdown free of per-element style/class litter -->
+    <style>
+      body {
+        font-family: "Ubuntu Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 350;
+        font-style: normal;
+        font-size: 20px;
+      }
+      h2 { font-size: 32px; margin-top: 1.4em; }
+      h3, h4, h5, h6 { font-size: 26px; margin-top: 1.2em; }
+      img { max-width: 100%; height: auto; display: block; margin: 1em auto; }
+      pre { overflow-x: auto; }
+      code { font-family: Consolas, Monaco, "Ubuntu Mono", monospace; }
+    </style>
+
+    <!-- pandoc's own build-time syntax highlighting (skylighting) - no client-side JS needed -->
+    <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    </style>
+  </head>
+  <body>
+
+    <!-- landing page information with my face and some text -->
+    <div style="align-items: center; margin: auto; max-width: fit-content">
+      <img src="../../resources/me.jpg" style="border-radius: 50%; margin: auto; display: block" class="landing-image" alt="image depicting Robert Krook, a functional programmer based in Gothenburg">
+      <h1 class="ubuntu-font" style="text-align: center; font-size: 38px">Robert Krook</h1>
+      <hr>
+      <p class="ubuntu-font" style="text-align: center; font-size: 24px;">
+        <a class="link-style-underline" href="../../index.html">Front page</a> /
+        <a class="link-style-underline" href="../../pages/posts.html">Posts</a>
+      </p>
+    </div>
+
+    <div style="align-items: center; margin: auto; width: 85%;">
+      <hr>
+      <h1 class="ubuntu-font" style="font-size: 40px; text-align: center; text-decoration: underline;"></h1>
+
+      <h2 id="introduction">Introduction</h2>
+      <p>I intend to write a series of blog posts about my experience
+      learning some bare metal embedded programming. I will try to keep
+      it as a kind of “The blog series I wish I had when I started
+      out”.</p>
+      <p>My academic background is in computer science. I never had an
+      interest in computers or programming growing up, and only started
+      learning about it when I started my bachelors in computer science
+      in 2014. Clearly my interest was quickly captured, as I am still
+      studying computer science today, defending my PhD thesis in
+      November. My main area of focus and expertise has been functional
+      programming, primarily using Haskell. When I started my PhD, the
+      project I was hired for sought to develop tools and frameworks for
+      developing secure applications for IoT devices, using functional
+      programming. While the functional programming bit was where my
+      expertise lay, the embedded space was new to me. Many of my
+      projects throughout the last six years have involved MCUs or other
+      low level platforms in some sense. Despite this, I knew very
+      little about MCUs and embedded programming. Real-Time operating
+      systems like Zephyr or ChibiOS offer a high-level enough framework
+      that you can get by quite well without having to know too much of
+      the low-level things.</p>
+      <p>Reflecting upon this after so many years, I found it a shame
+      that I still knew quite little about the low-level things, which
+      prompted me to engage in some bare metal programming. It has now
+      been about a year of me tinkering with this whenever I get tired
+      of my other projects. When I say bare metal programming, what I
+      mean is that there is no operating system on the board. The only
+      code that’s running is code that I’ve written, and there is no
+      scheduler or threads. I don’t want to use an IDE or special
+      development environment, and only want to write direct C code,
+      linker scripts, and Makefile’s.</p>
+      <p>It has been a lot of fun and oftentimes frustrating. Debugging
+      is not always easy, and diving into a huge reference manual
+      whenever something new is to be programmed is daunting. My hope is
+      to write these blog posts as a kind of guide, “what I wish I had
+      when I started programming my board”. The blog posts would have
+      saved me numerous hours of debugging.</p>
+      <p>The initial seed that helped me get started with this was a
+      series of <a
+      href="https://kleinembedded.com/stm32-without-cubeide-part-1-the-bare-necessities/">blog
+      posts by Kristian Klein-Wengel</a>, detailing how to develop
+      firmware for a specific STM32 board without STMCubeIde. The first
+      post in this series might repeat most, if not all, of what
+      Kristian says in his series. Some of the details have been swapped
+      out for details concerning my board. The later posts in this
+      series will introduce primarily new content, building upon the
+      knowledge base started by Kristian.</p>
+      <p>Throughout these posts we will</p>
+      <ul>
+      <li>Do the basic stuff such as configuring <code>systick</code>,
+      blinking LEDs, using UART, etc.</li>
+      <li>Configure the PLL to increase the clock frequency of our
+      board(s)</li>
+      <li>Turn our code into a proper collection of drivers, with
+      implementations for three of our boards</li>
+      <li>Add a board abstraction layer, so that the same application
+      code can run on any of the boards</li>
+      <li>Add a persistent segment of memory to the linker script, and
+      store a key-value database in it</li>
+      <li>Run Haskell directly on the MCU (because it is fun)</li>
+      <li>Program Arm TrustZone-M bare metal (this is a nightmare)</li>
+      <li>Implement a framework to engage in confidential computing
+      using Haskell and TrustZone-M</li>
+      </ul>
+      <p>For now, let us get started with some of the easy stuff. This
+      first post will set the scene by implementing a linker and startup
+      script, blink some LEDs, add a <code>systick</code> handler, and
+      configure the UART.</p>
+      <h2 id="what-you-will-need-to-replicate-what-i-have-done">What you
+      will need to replicate what I have done</h2>
+      <h4 id="the-board">The Board</h4>
+      <p>I will begin this blog series by describing just one board, but
+      I have programmed three boards in the same family (Nucleo), and
+      will describe the notable differences when they become relevant.
+      This first post will concern just one board, the <a
+      href="https://www.st.com/en/microcontrollers-microprocessors/stm32l552ze.html">STM32L552ZEQ</a>
+      board. It has an Arm Cortex-M33 CPU, which we can push up to 110
+      MHz (we will do this in a subsequent post). There is 512 KB of
+      FLASH memory, and 256 KB of SRAM. It has three LEDs and one user
+      button. The SRAM is divided into two actual SRAMs, SRAM1 and
+      SRAM2. SRAM1 is 192 KB large, whereas SRAM2 is 64 KB large.</p>
+      <h4 id="the-toolchain">The Toolchain</h4>
+      <p>To build software for this device we are going to use the
+      <code>arm-none-eabi</code> toolchain, containing suitable versions
+      of most tools we might need, such as GCC, GDB, Objdump, etc. It
+      can be found for download <a
+      href="https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads">here</a>.</p>
+      <h4 id="the-programmer">The Programmer</h4>
+      <p>To <em>flash</em> our compiled program onto the board we use
+      what is called a programmer. We will use OpenOCD. In this series
+      of blog posts we will eventually write drivers for a second board,
+      and support for this board has not yet made its way into OpenOCD.
+      For this reason, ST has their own fork of OpenOCD which
+      <em>does</em> have support. We will clone and build <a
+      href="https://github.com/STMicroelectronics/OpenOCD">ST's
+      fork</a></p>
+      <ul>
+      <li><code>git clone git@github.com:STMicroelectronics/OpenOCD.git</code></li>
+      <li><code>cd OpenOCD</code></li>
+      <li><code>./bootstrap</code></li>
+      <li><code>./configure</code></li>
+      <li><code>make</code> or <code>make -j4</code>, <code>-j8</code>,
+      or however many workers you want to use</li>
+      </ul>
+      <p>Now, the binary for OpenOCD can be found in <code>src</code>
+      (unless you install it somewhere else).</p>
+      <h4 id="documents">Documents</h4>
+      <p>We will frequently refer to the reference manual to figure out
+      how to do things, and it can be found <a
+      href="https://github.com/Rewbert/bare-metal-stm32-nucleo/blob/main/manuals/reference_manual_stm32l5.pdf">here</a>.
+      Additionally, there is a user manual describing how the specific
+      device is configured, which can be found <a
+      href="https://github.com/Rewbert/bare-metal-stm32-nucleo/blob/main/manuals/user_manual_stm32l5.pdf">here</a>.</p>
+      <h2 id="our-first-program">Our First Program</h2>
+      <p>The bare minimum that we’ll need to blink one of the LEDs
+      is</p>
+      <ul>
+      <li>A linker script</li>
+      <li>A startup script</li>
+      <li>Our program</li>
+      </ul>
+      <p>Our linker script will tell the linker where in memory it is
+      supposed to place the code and data, as well as where the SRAM can
+      be found. The board has 32 bit addresses, giving us 4 billion
+      unique addresses. However, since we <em>only</em> have 512 KB of
+      FLASH and 256 KB of SRAM, we use the linker script to say exactly
+      which of these 4 billion addresses should be used.</p>
+      <p>To figure out where we are supposed to place things, we can
+      look at the memory map. <img src="graphics/memorymap.png"
+      alt="memorymap" /> There is a lot of things going on here, but
+      there are just a few things that we need to learn from this table,
+      where to place the FLASH and where to place the SRAM. I have
+      learned that ST seem to use the same segments of addresses with
+      most MCUs, so if you have worked on several ST MCUs before you
+      might not need to refer to the memory map at all.</p>
+      <p>We conclude that FLASH starts at <code>0x08000000</code>, and
+      that SRAM1 starts at <code>0x20000000</code>. We also note that
+      SRAM2 starts immediately where SRAM1 ends, so we could in this
+      case treat SRAM1 as if it was 256 KB large.</p>
+      <h4 id="linker-script">Linker Script</h4>
+      <p>We begin writing our linker script by declaring these
+      regions</p>
+      <pre class="ld"><code>MEMORY
+{
+    ISR       (rw):  ORIGIN = 0x08000000, LENGTH = 2K
+    FLASH     (rx):  ORIGIN = 0x08000800, LENGTH = 510K
+    SRAM1     (rwx): ORIGIN = 0x20000000, LENGTH = 256K
+}</code></pre>
+      <p>We continue by declaring a variable <code>_estack</code>, which
+      will be available to our startup script. The stack grows
+      ‘downwards’ in memory, so our stack will begin at the end of SRAM.
+      The linker script has some functions to help us compute where the
+      stack starts.</p>
+      <pre class="ld"><code>PROVIDE(_estack = ORIGIN(SRAM1) + LENGTH (SRAM1));</code></pre>
+      <p>Finally, we must define the memory sections that our program
+      will use. The sections are <code>.isr_vector</code>,
+      <code>.text</code>, <code>.rodata</code>, <code>.data</code>, and
+      <code>.bss</code>. A section is declared by naming it, saying what
+      should go into it, and where it should be located (FLASH or SRAM).
+      As we declare definitions in this file, there is a <em>current
+      address</em> variable that keeps changing, called <code>.</code>
+      (a singular dot). We sometimes refer to this special variable to
+      create other named variables, such as <code>_sbss</code>.</p>
+      <pre class="ld"><code>SECTIONS
+{
+    .isr_vector :
+    {
+        KEEP(*(.isr_vector)) /* The code does not refer to isr_vector, so we must ask to keep it */
+    } &gt; ISR
+
+    .text :
+    {
+        . = ALIGN(4);
+        *(.text)
+        *(.text.*)
+
+        __exidx_start = .;
+        KEEP(*(.ARM.exidx*))
+        __exidx_end = .;
+
+        . = ALIGN(4);
+        _etext = .;
+    } &gt; FLASH
+
+    .rodata :
+    {
+        . = ALIGN(4);
+        *(.rodata)
+        *(.rodata.*)
+        . = ALIGN(4);
+
+    } &gt; FLASH
+
+    .data :
+    {
+        . = ALIGN(4);
+        _sdata = .;
+        *(.data)
+        *(.data.*)
+        . = ALIGN(4);
+        _edata = .;
+    } &gt; SRAM1 AT&gt; FLASH
+
+    _sidata = LOADADDR(.data);
+
+    .bss :
+    {
+        . = ALIGN(4);
+        _sbss = .;
+        __bss_start__ = _sbss;
+        *(.bss)
+        *(.bss.*)
+        *(COMMON)
+        . = ALIGN(4);
+        _ebss = .;
+        __bss_end__ = _ebss;
+    } &gt; SRAM1
+
+    . = ALIGN(8);
+    _end = .;
+    PROVIDE(end = .);
+}</code></pre>
+      <p>It looks a bit daunting, but it is quite straight forward once
+      you start unraveling it. I should mention that in the
+      <code>.data</code> section, initialised variables are placed
+      during compilation. These must be copied from the FLASH to the
+      SRAM during boot. We use the <code>&gt; SRAM1 AT&gt; FLASH</code>
+      syntax to reserve memory in both of these sections. Declared
+      variables are exported and visible to the program at runtime.</p>
+      <p>This linker script will carry us for a majority of this
+      project, so I will perhaps leave it at this. For the reader that
+      is interested in more details of how this works, I think a few
+      google searches or a 10 minute conversation with an LLM of your
+      choice is enough to get a grasp of it.</p>
+      <h4 id="isr-vector">ISR Vector</h4>
+      <p>ISR, interrupt service routine. These are special functions
+      that are invoked by the MCU when certain events happen. For the
+      MCU to know how to find these functions at runtime, they are
+      always located at the same place, the ISR vector. By ST convention
+      this is the first thing that appears in the FLASH, at
+      <code>0x08000000</code>. We refer back to the linker script and
+      note that we reserved 2 KB for the ISR, and that that section
+      started at the start of FLASH.</p>
+      <p>The shape of the ISR can be learned from the reference manual.
+      It is quite long, as we can install many more ISRs than we need
+      for this blog series, so for now we only focus on the first few
+      entries. <img src="graphics/vectortable.png" alt="vectortable" />
+      We won’t implement all of these ISRs and will only focus on the
+      first two entries now. The first entry holds the address of the
+      initial stack pointer, and every other entry in this vector table
+      is a function pointer. We begin implementing our startup script by
+      defining some constants and allocating space for the vector
+      table</p>
+      <div class="sourceCode" id="cb4"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define VECTOR_SIZE_WORDS 116</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">extern</span> <span class="dt">uint32_t</span> _estack<span class="op">;</span> <span class="co">// This symbol is supplied by the linker script, remember?</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> reset_handler<span class="op">(</span><span class="dt">void</span><span class="op">);</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> isr_vector<span class="op">[</span>VECTOR_SIZE_WORDS<span class="op">]</span> __attribute__<span class="op">((</span>section<span class="op">(</span><span class="st">&quot;.isr_vector&quot;</span><span class="op">)))</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)</span> <span class="op">&amp;</span>_estack<span class="op">,</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)&amp;</span>reset_handler<span class="op">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// add more handlers as wanted</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> reset_handler<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>We are using an attribute to explicitly say that the
+      <code>isr_vector</code> should be allocated in the
+      <code>.isr_vector</code> section of FLASH, and that the first
+      entry is the linker symbol <code>_estack</code>. The second entry
+      is a function pointer, pointing to the reset handler. The reset
+      handler is the first thing that the CPU starts executing when the
+      MCU has been turned on (or reset). The purpose of the reset
+      handler is to</p>
+      <ol type="1">
+      <li>copy data from the <code>.data</code> section of FLASH to the
+      <code>.data</code> section of SRAM</li>
+      <li>zero-initialise the <code>.bss</code> segment</li>
+      <li>invoke the <code>main</code> function</li>
+      </ol>
+      <p>The first two tasks are implemented by grabbing onto the linker
+      symbols that the linker script exposed, identifying the boundaries
+      of the different memory sections. The complete reset handler
+      is</p>
+      <div class="sourceCode" id="cb5"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">extern</span> <span class="dt">uint32_t</span> _sdata<span class="op">,</span> _sidata<span class="op">,</span> _edata<span class="op">,</span> _sbss<span class="op">,</span> _ebss<span class="op">;</span> <span class="co">// symbols defined by the linker</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main<span class="op">(</span><span class="dt">void</span><span class="op">);</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> reset_handler<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Copy .data from FLASH to SRAM</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> data_size  <span class="op">=</span> <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)&amp;</span>_edata <span class="op">-</span> <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)&amp;</span>_sdata<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> <span class="op">*</span>flash_data <span class="op">=</span> <span class="op">(</span><span class="dt">uint8_t</span><span class="op">*)</span> <span class="op">&amp;</span>_sidata<span class="op">;</span> <span class="co">//etext;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> <span class="op">*</span>sram_data  <span class="op">=</span> <span class="op">(</span><span class="dt">uint8_t</span><span class="op">*)</span> <span class="op">&amp;</span>_sdata<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">uint32_t</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> data_size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      sram_data<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> flash_data<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Zero-fill .bss section in SRAM</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> bss_size <span class="op">=</span> <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)&amp;</span>_ebss <span class="op">-</span> <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)&amp;</span>_sbss<span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> <span class="op">*</span>bss      <span class="op">=</span> <span class="op">(</span><span class="dt">uint8_t</span><span class="op">*)</span> <span class="op">&amp;</span>_sbss<span class="op">;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">uint32_t</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> bss_size<span class="op">;</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>      bss<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    main<span class="op">();</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>This is really everything necessary to fire up the board and
+      invoke <code>main</code>. The <code>reset_handler</code> runs
+      first, and then it calls <code>main</code>. What we need to do now
+      is to implement <code>main</code>.</p>
+      <h4 id="the-program">The Program</h4>
+      <p>The program we ultimately want to run will blink one of the
+      LEDs at a fixed frequency, and output something to the UART. We
+      will, however, begin by turning on the LED. To do this, we need to
+      do some configurations. First of all, the red LED is bound to GPIO
+      port A, pin 9. I’ll refer to such GPIO pins by their port and name
+      going forwards, so the red LED is on A9. Directly after reset, the
+      GPIO ports are all unclocked, meaning that there is no current
+      going to them. We can learn this from looking at the relevant
+      register in the <em>Reset and Clock-Control</em> peripheral. <img
+      src="graphics/rccahb2enr.png" alt="rccahb2enr" /> We can see that
+      bit zero of the <code>AHB2ENR</code> register in the
+      <code>RCC</code> peripheral, after reset, is set to
+      <code>0</code>, indicating that it is unclocked. Scrolling down a
+      bit, we see <img src="graphics/rccahb2enrgpioa.png"
+      alt="rccahb2enrgpioa" /> We simply need to write a one to this
+      position. Sounds simple? It is, but what can be a bit hairy is to
+      figure out exactly how to get there.</p>
+      <p>We dig through the memory map in the reference manual and learn
+      that the RCC peripheral is controlled via addresses
+      <code>0x40021000</code> through <code>0x400213FF</code>. <img
+      src="graphics/rccmap.png" alt="rcclocation" /> Looking at the
+      description of the <code>AHB2ENR</code> register above, we see
+      that it says ‘offset <code>0x04C</code>’. This is the offset from
+      the start address of the RCC address range where we will find the
+      <code>AHB2ENR</code> register.
+      <code>0x40021000 + 0x04C = 0x4002104C</code>. We model these as
+      constants in our C program</p>
+      <div class="sourceCode" id="cb6"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define RCC 0x40021000U</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define AHB2ENR (RCC + 0x04CU)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#define GPIOA_POS 0</span></span></code></pre></div>
+      <p>enabling the GPIO A port is now as ‘simple’ as writing a one to
+      the correct position in this register. After we’ve done so, we
+      need to let some cycles pass for the port to be properly clocked
+      before we continue, or the rest of our configurations on that port
+      might not succeed. We do this by reading back the value we just
+      wrote. We mark the <code>dummy</code> variable as
+      <code>volatile</code> to ensure that the compiler doesn’t optimise
+      away any reads we do to it.</p>
+      <div class="sourceCode" id="cb7"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> enable_gpioa<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">volatile</span> <span class="dt">uint32_t</span> dummy<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">volatile</span> <span class="dt">uint32_t</span> <span class="op">*</span>ahb2enr <span class="op">=</span> <span class="op">(</span><span class="dt">uint32_t</span> <span class="op">*)</span>AHB2ENR<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>ahb2enr <span class="op">|=</span> <span class="op">(</span><span class="dv">1</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> GPIOA_POS<span class="op">);</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    dummy <span class="op">=</span> <span class="op">*</span>ahb2enr<span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>After invoking this function, the GPIO port A will be clocked
+      and ready. Before we can turn on the LED, however, we need to
+      configure the specific pin. GPIO pins on these boards have several
+      configuration options, but the one we need to change for our
+      purposes is the <em>mode</em> of the pin (we want to set it to
+      <em>output</em>). Again, we look in the reference manual to figure
+      out where we find the GPIOA peripheral <img
+      src="graphics/gpioaperipheral.png" alt="gpioaperipheral" /> The
+      peripheral is controlled via addresses <code>0x42020000</code>
+      through <code>0x420203FF</code>. The specific register we need to
+      modify is the mode one, called <code>MODER</code>. We find it in
+      the reference manuals register map for the GPIO. <img
+      src="graphics/moderegister.png" alt="gpiomoderreg" /> This
+      register is at offset <code>0x00</code>. We see that there are two
+      bits used to control each pin, with valid assignments of either
+      <code>00</code>, <code>01</code>, <code>10</code>, or
+      <code>11</code>. We control pin 9 with bits 18 and 19. After
+      reset, <code>MODE9</code> has the value <code>11</code>, whereas
+      we want to set it to <code>01</code>. We define our macros and
+      proceed with first resetting the contents of the register (setting
+      both bits to 0), and then writing our configuration to it.</p>
+      <div class="sourceCode" id="cb8"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define GPIOA 0x42020000U</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define MODER (GPIOA + 0x00U)</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> configure_gpioa<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">volatile</span> <span class="dt">uint32_t</span> <span class="op">*</span>moder <span class="op">=</span> <span class="op">(</span><span class="dt">uint32_t</span> <span class="op">*)</span>MODER<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>moder <span class="op">&amp;=</span> <span class="op">~(</span><span class="bn">0x3</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> <span class="dv">18</span><span class="op">);</span> <span class="co">// set the two specific bits to 0</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>moder <span class="op">|=</span> <span class="op">(</span><span class="bn">0x1</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> <span class="dv">18</span><span class="op">);</span>   <span class="co">// write our configuration to them</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>Now we have written code to enable to clock for the GPIO port
+      A, and we have configured the pin to act as an output. It is
+      important to refer to the reference manual, as sometimes there
+      might be more configurations needed. For instance, pins also have
+      <em>pull-up pull-down</em> registers and <em>alternate
+      function</em> registers that affect its operation, and by accident
+      the A9 pin that we are using had the correct reset values for
+      them. This might not always be the case, in which case you would
+      have needed to configure those registers as well.</p>
+      <p>When it comes to turning the LED on, we refer to our reference
+      manual and find the <em>output data register</em>. <img
+      src="graphics/gpioaoutputdata.png" alt="gpioaoutputdata" /> It is
+      at offset <code>0x14</code>, and there is one bit for each of the
+      pins. Bit number 9 controls the 9th pin. The reset value of the
+      LED is <code>0</code>. By writing a <code>1</code> to its register
+      we will turn it on. We will write a function that <em>flips</em>
+      whatever value the LED currently has.</p>
+      <div class="sourceCode" id="cb9"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define ODR (GPIOA + 0x14U)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> toggle_led<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">volatile</span> <span class="dt">uint32_t</span> <span class="op">*</span>odr <span class="op">=</span> <span class="op">(</span><span class="dt">uint32_t</span> <span class="op">*)</span>ODR<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>odr <span class="op">^=</span> <span class="op">(</span><span class="bn">0x1</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> <span class="dv">9</span><span class="op">);</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>Now we can write our <code>main</code> function and put
+      everything together.</p>
+      <div class="sourceCode" id="cb10"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    enable_gpioa<span class="op">();</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    configure_gpioa<span class="op">();</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    toggle_led<span class="op">();</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{}</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>This is the program that we will build and flash onto our
+      board. When we press the reset button, the red LED should light
+      up, indicating that everything went as expected.</p>
+      <h2 id="building-and-flashing-the-board">Building and Flashing the
+      Board</h2>
+      <p>We will build our program in two steps. First, we will build
+      the C sources into object files, after which we will link them to
+      produce the final binary that we will flash onto your board. This
+      is typically done by defining build rules in a Makefile. Rules may
+      have dependencies, and if those dependencies are built by other
+      rules, make will ensure that they are rebuilt if they have changed
+      since we last built them. I won’t explain everything in the
+      Makefile, but will explain what I find most important. The
+      interested reader can find many better tutorials online than what
+      I could write here.</p>
+      <p>First, we name the cross compiler and create variables
+      <code>CC</code> and <code>SIZE</code> to identify the compiler and
+      the <code>size</code> tool. The flags passed into the compiler
+      identify the CPU, the fact that it is using thumb instructions,
+      that we run in an unhosted environment, and finally that we are
+      not using the C standard library. The linker file is referenced
+      directly by name.</p>
+      <div class="sourceCode" id="cb11"><pre
+      class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">CROSS </span><span class="ch">?=</span><span class="st"> arm-none-eabi-</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dt">CC    </span><span class="ch">:=</span><span class="st"> </span><span class="ch">$(</span><span class="dt">CROSS</span><span class="ch">)</span><span class="st">gcc</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="dt">SIZE  </span><span class="ch">:=</span><span class="st"> </span><span class="ch">$(</span><span class="dt">CROSS</span><span class="ch">)</span><span class="st">size</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Cortex-M33 core, no operating system and no standard library</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="dt">CFLAGS  </span><span class="ch">:=</span><span class="st"> -mcpu=cortex-m33 -mthumb -ffreestanding -nostdlib -Wall -Wextra -O0 -g</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="dt">LDFLAGS </span><span class="ch">:=</span><span class="st"> -T linker.ld</span></span></code></pre></div>
+      <p>To be able to flash the program into the board, we need to tell
+      make how to find the OpenOCD binary we built earlier. Assuming
+      that you cloned the repository into your home directory and built
+      it there, the correct variables are given below. Note that when we
+      specify the OpenOCD configuration to use when flashing, we are
+      saying that we flash via the board’s ST/LINK and state explicitly
+      which board we are using.</p>
+      <div class="sourceCode" id="cb12"><pre
+      class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dt">OPENOCD_DIR     </span><span class="ch">?=</span><span class="st"> </span><span class="ch">$(</span><span class="dt">HOME</span><span class="ch">)</span><span class="st">/OpenOCD</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="dt">OPENOCD         </span><span class="ch">:=</span><span class="st"> </span><span class="ch">$(</span><span class="dt">OPENOCD_DIR</span><span class="ch">)</span><span class="st">/src/openocd</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="dt">OPENOCD_SCRIPTS </span><span class="ch">:=</span><span class="st"> </span><span class="ch">$(</span><span class="dt">OPENOCD_DIR</span><span class="ch">)</span><span class="st">/tcl</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="dt">OPENOCD_CFG     </span><span class="ch">:=</span><span class="st"> -s </span><span class="ch">$(</span><span class="dt">OPENOCD_SCRIPTS</span><span class="ch">)</span><span class="st"> -f interface/stlink.cfg -f target/stm32l5x.cfg</span></span></code></pre></div>
+      <p>We define variables that name the binary we produce, list our
+      source files, and create matching names for our object files. The
+      <code>$(SRCS:.c=.o)</code> is a substitute reference, iterating
+      over each word and replacing the trailing <code>.c</code> and
+      <code>.o</code>, eventually producing
+      <code>startup.o main.o</code>.</p>
+      <div class="sourceCode" id="cb13"><pre
+      class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">TARGET </span><span class="ch">:=</span><span class="st"> blink</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="dt">SRCS   </span><span class="ch">:=</span><span class="st"> startup.c main.c</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="dt">OBJS   </span><span class="ch">:=</span><span class="st"> </span><span class="ch">$(</span><span class="dt">SRCS</span><span class="kw">:</span><span class="ss">.c</span><span class="kw">=</span><span class="ss">.o</span><span class="ch">)</span></span></code></pre></div>
+      <p>We create phony targets for building the binary, flashing the
+      board, and cleaning up the build artifacts. We then define a rule
+      that produces an object file out of a C source file, and a second
+      rule that takes the object files and linker script and
+      <em>links</em> them into a <code>.elf</code> file, a binary that
+      we can flash onto our board.</p>
+      <div class="sourceCode" id="cb14"><pre
+      class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">.PHONY:</span><span class="dt"> all flash clean</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="dv">all:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">TARGET</span><span class="ch">)</span><span class="dt">.elf</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># compile each C source into an object file.</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="dv">%.o:</span><span class="dt"> %.c</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">CFLAGS</span><span class="ch">)</span> -c <span class="ch">$&lt;</span> -o <span class="ch">$@</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co"># link the object files into the final ELF using our linker script.</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="dv">$(TARGET).elf:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">OBJS</span><span class="ch">)</span><span class="dt"> linker.ld</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">CFLAGS</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">LDFLAGS</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">OBJS</span><span class="ch">)</span> -o <span class="ch">$@</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="ch">$(</span><span class="dt">SIZE</span><span class="ch">)</span> <span class="ch">$@</span></span></code></pre></div>
+      <p>The aforementioned <code>flash</code> and <code>clean</code>
+      rules are defined below. The flash rule will invoke OpenOCD to
+      flash a device that is connected to the machine you are working on
+      via USB cable, and the clean rule will remove the object files and
+      the produced binary.</p>
+      <div class="sourceCode" id="cb15"><pre
+      class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Flash the ELF onto the board with ST&#39;s OpenOCD fork.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="dv">flash:</span><span class="dt"> </span><span class="ch">$(</span><span class="dt">TARGET</span><span class="ch">)</span><span class="dt">.elf</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="ch">$(</span><span class="dt">OPENOCD</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">OPENOCD_CFG</span><span class="ch">)</span> -c <span class="st">&quot;program </span><span class="ch">$(</span><span class="dt">TARGET</span><span class="ch">)</span><span class="st">.elf verify reset exit&quot;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="dv">clean:</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    rm -f <span class="ch">$(</span><span class="dt">OBJS</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">TARGET</span><span class="ch">)</span>.elf</span></code></pre></div>
+      <p>Finally, we can build the binary by running <code>make</code>
+      in a terminal, and flashing is done by <code>make flash</code> in
+      the same terminal</p>
+      <div class="sourceCode" id="cb16"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/home/OpenOCD/src/openocd</span> <span class="at">-s</span> /home/OpenOCD/tcl <span class="at">-f</span> interface/stlink.cfg <span class="at">-f</span> target/stm32l5x.cfg <span class="at">-c</span> <span class="st">&quot;program blink.elf verify reset exit&quot;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Open</span> On-Chip Debugger 0.12.0+dev-00645-g49ef1d010 <span class="er">(</span><span class="ex">2026-06-25-21:54</span><span class="kw">)</span> <span class="ex">[https://github.com/STMicroelectronics/OpenOCD]</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Licensed</span> under GNU GPL v2</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="ex">For</span> bug reports, read</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        <span class="ex">http://openocd.org/doc/doxygen/bugs.html</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : auto-selecting first available session transport <span class="st">&quot;hla_swd&quot;</span>. To override use <span class="st">&#39;transport select &lt;transport&gt;&#39;</span>.</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : The selected transport took over low-level target control. The results might differ compared to plain JTAG/SWD</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="ex">Warn</span> : The selected adapter does not support debugging this device in secure mode</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : clock speed 500 kHz</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : STLINK V2J34M25 <span class="er">(</span><span class="ex">API</span> v2<span class="kw">)</span> <span class="ex">VID:PID</span> 0483:374B</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : Target voltage: 3.247989</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : [stm32l5x.cpu] Cortex-M33 r0p2 processor detected</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : [stm32l5x.cpu] target has 8 breakpoints, 4 watchpoints</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="ex">stm32l5x.cpu</span> in Non-Secure state</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="ex">stm32l5x.cpu</span> TrustZone disabled</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="ex">stm32l5x.cpu</span> work-area address is set to 0x20000000</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : [stm32l5x.cpu] Examination succeed</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : starting gdb server for stm32l5x.cpu on 3333</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : Listening on port 3333 for gdb connections</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="ex">[stm32l5x.cpu]</span> halted due to debug-request, current mode: Thread </span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="ex">xPSR:</span> 0xf9000000 pc: 0x08010e92 msp: 0x20030000</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> Programming Started <span class="pp">**</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : device idcode = 0x20016472 <span class="er">(</span><span class="ex">STM32L55/L56xx</span> <span class="at">-</span> Rev Z : 0x2001<span class="kw">)</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : TZEN = 0 : TrustZone disabled by option bytes</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : RDP level 0 <span class="er">(</span><span class="ex">0xAA</span><span class="kw">)</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : flash size = 512 KiB</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : flash mode : dual-bank</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a><span class="ex">Info</span> : Padding image section 0 at 0x08000740 with 192 bytes</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="ex">Warn</span> : Adding extra erase range, 0x08000918 .. 0x08000fff</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> Programming Finished <span class="pp">**</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> Verify Started <span class="pp">**</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> Verified OK <span class="pp">**</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="ex">**</span> Resetting Target <span class="pp">**</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="ex">shutdown</span> command invoked</span></code></pre></div>
+      <p>You now see the red LED lighting up on your board. If you press
+      the reset button on your board, we see the LED shutting off as the
+      board is power cycled, but then quickly turning on again as the
+      board starts executing the program.</p>
+      <h2 id="improving-the-code-using-cmsis">Improving the Code Using
+      CMSIS</h2>
+      <p>The shakiest part of this, so far, has been the raw references
+      to the peripheral registers. It is easy to get wrong, and hard to
+      debug when it happens. The only code that this project will use
+      that we have not written ourselves is CMSIS, <a
+      href="https://www.arm.com/technologies/cmsis">Common
+      Microcontroller Software Interface Standard</a>. CMSIS implements
+      header files that name peripherals and registers for us, so that
+      we don’t have to name them and bind them to addresses ourselves.
+      Arm defines CMSIS material for their CPUs, and ST have
+      supplementary repositories that add material for their specific
+      MCUs.</p>
+      <p>To set it up, clone the CMSIS repo into the root of your
+      project, create an ST subdirectory, an then clone ST’s sources for
+      the STM32L5-family of devices into there.</p>
+      <div class="sourceCode" id="cb17"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:ARM-software/CMSIS_5.git vendor/CMSIS</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> vendor vendor/CMSIS/Device</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ST</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ST</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:STMicroelectronics/cmsis-device-l5.git STM32L5</span></code></pre></div>
+      <p>We then need to make sure that our Makefile knows to include
+      the CMSIS header for our STM32L5 device during compilation.
+      Include directories are added with the <code>-I</code> flag, so we
+      create a <code>CPPFLAGS</code> variable where we collect our
+      include resources.</p>
+      <div class="sourceCode" id="cb18"><pre
+      class="sourceCode makefile"><code class="sourceCode makefile"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="dt">CPPFLAGS </span><span class="ch">:=</span><span class="st"> -Ivendor/CMSIS/Device/ST/STM32L5/Include -Ivendor/CMSIS/CMSIS/Core/Include</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># and then during compilation, make sure to include the CPPFLAGS</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="dv">%.o:</span><span class="dt"> %.c</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="ch">$(</span><span class="dt">CC</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">CFLAGS</span><span class="ch">)</span> <span class="ch">$(</span><span class="dt">CPPFLAGS</span><span class="ch">)</span> -c <span class="ch">$&lt;</span> -o <span class="ch">$@</span></span></code></pre></div>
+      <p>Our program can now be rewritten to refer to
+      <code>struct</code>s that control each peripheral. You might need
+      to hop into the included header file and read it to figure out
+      what the names you need are, but they follow a pattern and
+      eventually you will learn them. Begin by including the header file
+      mentioned above</p>
+      <div class="sourceCode" id="cb19"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&quot;stm32l552xx.h&quot;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> enable_gpioa<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">volatile</span> <span class="dt">uint32_t</span> dummy<span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>AHB2ENR <span class="op">|=</span> RCC_AHB2ENR_GPIOAEN<span class="op">;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    dummy <span class="op">=</span> RCC<span class="op">-&gt;</span>AHB2ENR<span class="op">;</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="dt">void</span><span class="op">)</span>dummy<span class="op">;</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> configure_gpioa<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    GPIOA<span class="op">-&gt;</span>MODER <span class="op">&amp;=</span> <span class="op">~</span>GPIO_MODER_MODE9<span class="op">;</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    GPIOA<span class="op">-&gt;</span>MODER <span class="op">|=</span>  GPIO_MODER_MODE9_0<span class="op">;</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> toggle_led<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    GPIOA<span class="op">-&gt;</span>ODR <span class="op">^=</span> GPIO_ODR_OD9<span class="op">;</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    enable_gpioa<span class="op">();</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    configure_gpioa<span class="op">();</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    toggle_led<span class="op">();</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>The benefit of this should be obvious, but let’s write a few
+      words about it anyway. First of all, we are trusting the CMSIS
+      headers to be correct. Assuming that they are, our code now
+      implements the exact same functionality but without referencing
+      raw addresses. We have reduced our surface of errors by quite a
+      lot, as well as the work we need to do. We will use CMSIS
+      throughout the rest of this blog series, not relying on manual
+      register management.</p>
+      <h2 id="systick">SysTick</h2>
+      <p>Just lighting up the LED is amazing by itself, but we can make
+      our program even more amazing by making it <em>blink</em>. To do
+      so, we need to implement some kind of <code>delay</code> function,
+      where we can tell our program to wait and not do anything.</p>
+      <p>Much like how the board knows to start execution by running the
+      reset handler, from the second slot in the vector table, we can
+      tell it to periodically invoke a handler called the
+      <code>systick_handler</code>. It gives our board something of a
+      heartbeat, and by knowing the duration between beats, we can
+      implement somewhat accurate timers.</p>
+      <p>We will create a default handler that simply loops, and say
+      that the systick handler is weakly aliased to it. This means that
+      if we don’t provide our own implementation of the systick handler
+      at a later stage, the linker will say that the default handler is
+      the systick handler. We amend our vector table like this</p>
+      <div class="sourceCode" id="cb20"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> systick_handler<span class="op">(</span><span class="dt">void</span><span class="op">);</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> default_handler<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{}</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> isr_vector<span class="op">[</span>VECTOR_SIZE_WORDS<span class="op">]</span> __attribute__<span class="op">((</span>section<span class="op">(</span><span class="st">&quot;.isr_vector&quot;</span><span class="op">)))</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)</span> <span class="op">&amp;</span>_estack<span class="op">,</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)&amp;</span>reset_handler<span class="op">,</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)&amp;</span>systick_handler<span class="op">,</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">// add more handlers as wanted</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+      <p>From the reference manual we learned where to place the reset
+      handler, and by going back to it we learn which slot to place the
+      systick handler in. These are the only additions we need to do to
+      the startup code, and now we can add the following code to our
+      application.</p>
+      <div class="sourceCode" id="cb21"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="dt">volatile</span> <span class="dt">uint32_t</span> ticks <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> systick_handler<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    ticks<span class="op">++;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">// the GPIO setup functions</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    SysTick_Config<span class="op">(</span><span class="dv">4000</span><span class="op">);</span> <span class="co">// STM32L552ZEQ runs at 4MHz after reset</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    __enable_irq<span class="op">();</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">// same as before</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>The <code>SysTick_Config</code> function is defined by CMSIS,
+      but internally manipulates registers similarly to how we modified
+      GPIO before we used CMSIS. We save ourselves some headaches by
+      using it. Similarly, <code>__enable_irq()</code> tells the board
+      that it should go ahead and invoke IRQs when appropriate.</p>
+      <p>After this configuration the board calls the
+      <code>systick_handler</code> 1000 times per second. We can
+      implement a busy-wait delay function by knowing this fact</p>
+      <div class="sourceCode" id="cb22"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> systick_delay_ms<span class="op">(</span><span class="dt">uint32_t</span> ms<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> start <span class="op">=</span> ticks<span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> end   <span class="op">=</span> start <span class="op">+</span> ms<span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>end <span class="op">&lt;</span> start<span class="op">)</span> <span class="op">{</span> <span class="co">/* overflow */</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>ticks <span class="op">&gt;</span> start<span class="op">);</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>ticks <span class="op">&lt;</span> end<span class="op">);</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>Now we can modify the <code>main</code> function to blink the
+      LED rather than just turning it on. This is out final
+      <code>main</code></p>
+      <div class="sourceCode" id="cb23"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    SysTick_Config<span class="op">(</span><span class="dv">4000</span><span class="op">);</span> <span class="co">// STM32L552ZEQ runs at 4MHz after reset</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    __enable_irq<span class="op">();</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    enable_gpioa<span class="op">();</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    configure_gpioa<span class="op">();</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        toggle_led<span class="op">();</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        systick_delay_ms<span class="op">(</span><span class="dv">500</span><span class="op">);</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>Busy wait is okay for our simple purposes. We don’t have an
+      operating system with threads and other facilities. There is no
+      other thread to run while we wait for the timer to expire. If we
+      were running with an operating system, we would park the waiting
+      thread until the timer expires. Until then, the operating system
+      would schedule another thread (if one exists).</p>
+      <h2 id="uart">UART</h2>
+      <p>Before we conclude, we additionally configure the UART so that
+      we can print and receive output from the device. UART is a
+      protocol for serial communication, whereby we can transfer bytes
+      from the device to a receiver. The receiver in our case will be
+      the laptop, running a receiver in the terminal.</p>
+      <p>The first step in figuring out how to do this is to find out
+      which UART is connected to the ST-LINK on the device (where we
+      connect our USB cable). The board comes with several UARTs, but
+      only one of them is connected to the ST-LINK at once. If you flip
+      your board over you’ll see little rectangle boxes littered all
+      over the place. These are called <em>solder bridges</em>, and they
+      can be moved around to cheaply reconfigure your board. Do not
+      worry, we will not do so, but it makes understanding the user
+      manual easier. Below you can find a picture of some of the solder
+      bridges <img style="width: 20%" src="graphics/solderbridges.png"
+      alt="solderbridges" /></p>
+      <p>Referring to the user manual, we find this section about the
+      Virtual COM port <img src="graphics/lpuart1.png" alt="lpuart1" />
+      The bold text denotes the default configuration (how the solder
+      bridges are placed on a board you just bought and unpacked). We
+      learn that the <em>low power uart 1</em> (LPUART1) is the default
+      configuration. We also learn that it uses the GPIO pins G7 and G8
+      to transmit and receive information. We can now begin configuring
+      the LPUART1.</p>
+      <h6 id="power-on-vddio2">Power on VDDIO2</h6>
+      <p>We first need to enable the GPIO port the LPUART1 pins were on.
+      From the manual we learned that they were G7 and G8, so GPIO port
+      G needs to be turned on. This is where we run into the first
+      gotcha, which took me ages to figure out. We cannot directly
+      enable the G port like we did the A port, because the G port is
+      powered by another power domain. If we dig into the reference
+      manual and read what the <code>PWR</code> peripheral controls,
+      we’ll eventually see this <img src="graphics/pwrvddio2.png"
+      alt="vddio2" /> What this is saying is that the G port is powered
+      via the <code>VDDIO2</code> domain. Reading what the reference
+      manual has to say about this we find this important sentence <img
+      src="graphics/vddio2enable.png" alt="vddio2enable" /> Your
+      instinct should now be to hop over to the section describing this
+      register, and read what it has to say <img
+      src="graphics/pwrcr2.png" alt="pwrcr2" /> Here we see that the
+      reset value is <code>0x00000000</code>, so every bit is
+      <code>0</code> before we do anything. If we look at the
+      <code>IOSV</code> field, we see that setting it to <code>1</code>
+      will make <code>VDDIO2</code> valid. We implement this by first
+      powering on the <code>PWR</code> peripheral via the
+      <code>RCC</code> peripheral, and then configure the specific
+      <code>CR2</code> register to enable <code>IOSV</code>. I won’t
+      describe how we figure out that we should power on the
+      <code>PWR</code> peripheral, and trust the reader to be able to
+      figure it out from the reference manual by now. We include the
+      complete code below.</p>
+      <div class="sourceCode" id="cb24"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>RCC<span class="op">-&gt;</span>APB1ENR1 <span class="op">|=</span> RCC_APB1ENR1_PWREN<span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>PWR<span class="op">-&gt;</span>CR2      <span class="op">|=</span> PWR_CR2_IOSV<span class="op">;</span></span></code></pre></div>
+      <h6 id="clock-gpio-g-and-configure-g7g8-as-af8">Clock GPIO G and
+      configure G7/G8 as AF8</h6>
+      <p>After running this code the GPIO G rail will be turned on by
+      doing the same configuration as we did for the GPIO A. Unlike with
+      the LED, however, the pins will need to be configured
+      differently.</p>
+      <ul>
+      <li>The mode needs to be <code>AF</code> (alternate function)</li>
+      <li>Pull-up needs to be set on both, as LPUART1 wants a defined
+      idle line</li>
+      <li>The alternating function needs to be set to <code>AF8</code>
+      My understanding is that this is quite standard, but the details
+      can all be learned from the reference and user manuals.</li>
+      </ul>
+      <div class="sourceCode" id="cb25"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>RCC<span class="op">-&gt;</span>AHB2ENR <span class="op">|=</span> RCC_AHB2ENR_GPIOGEN<span class="op">;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">/* AF mode = 0b10 for both pins */</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>MODER <span class="op">&amp;=</span> <span class="op">~(</span>GPIO_MODER_MODE7 <span class="op">|</span> GPIO_MODER_MODE8<span class="op">);</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>MODER <span class="op">|=</span>  <span class="op">(</span>GPIO_MODER_MODE7_1 <span class="op">|</span> GPIO_MODER_MODE8_1<span class="op">);</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">/* 0 = pull-up */</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>PUPDR <span class="op">&amp;=</span> <span class="op">~(</span>GPIO_PUPDR_PUPD7 <span class="op">|</span> GPIO_PUPDR_PUPD8<span class="op">);</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>PUPDR <span class="op">|=</span>  <span class="op">(</span>GPIO_PUPDR_PUPD7_0 <span class="op">|</span> GPIO_PUPDR_PUPD8_0<span class="op">);</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">/* Pin 7 configured from AFRL register, and pin 8 configured from AFRH */</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>AFR<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&amp;=</span> <span class="op">~</span>GPIO_AFRL_AFSEL7<span class="op">;</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>AFR<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">|=</span>  <span class="op">(</span><span class="dv">8</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> GPIO_AFRL_AFSEL7_Pos<span class="op">);</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>AFR<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">&amp;=</span> <span class="op">~</span>GPIO_AFRH_AFSEL8<span class="op">;</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>GPIOG<span class="op">-&gt;</span>AFR<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">|=</span>  <span class="op">(</span><span class="dv">8</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> GPIO_AFRH_AFSEL8_Pos<span class="op">);</span></span></code></pre></div>
+      <h6 id="clock-the-lpuart1-and-specify-its-clock-source">Clock the
+      LPUART1, and specify its clock source</h6>
+      <p>The clock that powers the LPUART1 peripheral is not hard-wired,
+      and can be configured in the <code>CCIPR1</code> register of the
+      <code>RCC</code> peripheral. We want to run it explicitly from the
+      <code>SYSCLK</code> source. We refer to what <code>CCIPR1</code>
+      has to say about selecting the source. <img
+      src="graphics/lpuart1clksource.png" alt="lpuart1clksource" /> The
+      reset value is <code>0x00000000</code>, so be default it is not
+      configured to use <code>SYSCLK</code>. We enable power to the
+      LPUART1 peripheral and then set its clock source.</p>
+      <div class="sourceCode" id="cb26"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>RCC<span class="op">-&gt;</span>APB1ENR2 <span class="op">|=</span> RCC_APB1ENR2_LPUART1EN<span class="op">;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>RCC<span class="op">-&gt;</span>CCIPR1 <span class="op">&amp;=</span> <span class="op">~</span>RCC_CCIPR1_LPUART1SEL<span class="op">;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>RCC<span class="op">-&gt;</span>CCIPR1 <span class="op">|=</span> RCC_CCIPR1_LPUART1SEL_0<span class="op">;</span></span></code></pre></div>
+      <h6 id="configure-the-baud-rate">Configure the baud rate</h6>
+      <p>LPUART differs from ordinary UART in that it uses a different
+      formula to compute the value to put in the <code>BRR</code>
+      register. The formula is (256 * lpuart1_clk_hz) / baud rate. If we
+      want a baud rate of <code>115200</code>, and our clock frequency
+      after boot is <code>4000000</code> hz, we get
+      <code>(256 * 4000000) / 115200 = 8888.888</code>. We write this to
+      the <code>BRR</code> register.</p>
+      <div class="sourceCode" id="cb27"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>LPUART1<span class="op">-&gt;</span>BRR <span class="op">=</span> <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)((</span><span class="dv">256</span><span class="bu">U</span> <span class="op">*</span> <span class="dv">4000000</span><span class="op">)</span> <span class="op">/</span> <span class="dv">115200</span><span class="op">);</span></span></code></pre></div>
+      <h6 id="frame-format-and-enabling-the-lpuart1">Frame format and
+      enabling the LPUART1</h6>
+      <p>Other configurations that needs to be done are parity bits,
+      stop bits, and data length. After reset our board already holds
+      the values we want (8-bit data, 1 stop bit, and no parity), so we
+      don’t need to configure them. The only thing left for us to do is
+      to actually enable to LPUART1.</p>
+      <div class="sourceCode" id="cb28"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>LPUART1<span class="op">-&gt;</span>CR1 <span class="op">|=</span> <span class="op">(</span>USART_CR1_UE <span class="op">|</span> USART_CR1_TE <span class="op">|</span> USART_CR1_RE<span class="op">);</span></span></code></pre></div>
+      <p>Here we use the <code>USART_x</code> family of macros from
+      CMSIS to refer to the registers we want to modify. The layout of
+      the USART matches that of LPUART, so CMSIS has not duplicated
+      them. The expectation is that you use the USART ones like
+      this.</p>
+      <p>Now you have properly configured and enabled the LPUART1
+      peripheral. It is perhaps the most tedious peripheral we’ve
+      configured so far, and it took me a while to figure out that this
+      is what we need to do. It was an absolute nightmare to debug why
+      it didn’t work when I adamantly believed that it should work (I
+      correctly configured every LPUART register etc). In the end I had
+      done everything correctly, but I had not turned on
+      <code>VDDIO2</code>, so the GPIO G pins never woke up. I used
+      logic analysers and oscilloscopes to see if there were any action
+      on my pins, but there weren’t.</p>
+      <p>The only things left for us now is to define the function to
+      send and receive data over the LPUART1.</p>
+      <h6 id="transmitting-receiving-data">Transmitting / Receiving
+      data</h6>
+      <p>I understand that there are efficient and inefficient ways to
+      do this. Things called DMAs would make this more efficient, but we
+      will do it the inefficient way here.</p>
+      <p>When we write a character to the LPUART1, we will wait until
+      the LPUART1 is ready to transmit. Then we place the character in
+      the <em>transmit data register</em>, after which we wait for the
+      transmit complete flag to turn on.</p>
+      <div class="sourceCode" id="cb29"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> uart_putc<span class="op">(</span><span class="dt">uint8_t</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!(</span>LPUART1<span class="op">-&gt;</span>ISR <span class="op">&amp;</span> USART_ISR_TXE<span class="op">));</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    LPUART1<span class="op">-&gt;</span>TDR <span class="op">=</span> c<span class="op">;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!(</span>LPUART1<span class="op">-&gt;</span>ISR <span class="op">&amp;</span> USART_ISR_TC<span class="op">));</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>Similarly, we receive data by waiting until a character is
+      ready for us to read, and then we return it from the <em>receive
+      data register</em>.</p>
+      <div class="sourceCode" id="cb30"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="dt">uint8_t</span> uart_getc<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!(</span>LPUART1<span class="op">-&gt;</span>ISR <span class="op">&amp;</span> USART_ISR_RXNE<span class="op">));</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(</span><span class="dt">uint8_t</span><span class="op">)</span>LPUART1<span class="op">-&gt;</span>RDR<span class="op">;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>From these primitives we can build larger functions that
+      e.g. print strings.</p>
+      <div class="sourceCode" id="cb31"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> uart_puts<span class="op">(</span><span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(*</span>s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>        uart_putc<span class="op">((</span><span class="dt">uint8_t</span><span class="op">)*</span>s<span class="op">++);</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <h6 id="putting-it-all-together">Putting it all together</h6>
+      <p>The complete UART code, with a revised <code>main</code>, can
+      be found below.</p>
+      <div class="sourceCode" id="cb32"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> configure_lpuart1<span class="op">(</span><span class="dt">uint32_t</span> clk_hz<span class="op">,</span> <span class="dt">uint32_t</span> baud_rate<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>APB1ENR1 <span class="op">|=</span> RCC_APB1ENR1_PWREN<span class="op">;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    PWR<span class="op">-&gt;</span>CR2      <span class="op">|=</span> PWR_CR2_IOSV<span class="op">;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>AHB2ENR <span class="op">|=</span> RCC_AHB2ENR_GPIOGEN<span class="op">;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* AF mode = 0b10 for both pins */</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    GPIOG<span class="op">-&gt;</span>MODER <span class="op">&amp;=</span> <span class="op">~(</span>GPIO_MODER_MODE7 <span class="op">|</span> GPIO_MODER_MODE8<span class="op">);</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    GPIOG<span class="op">-&gt;</span>MODER <span class="op">|=</span>  <span class="op">(</span>GPIO_MODER_MODE7_1 <span class="op">|</span> GPIO_MODER_MODE8_1<span class="op">);</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* 0 = pull-up */</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    GPIOG<span class="op">-&gt;</span>PUPDR <span class="op">&amp;=</span> <span class="op">~(</span>GPIO_PUPDR_PUPD7 <span class="op">|</span> GPIO_PUPDR_PUPD8<span class="op">);</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    GPIOG<span class="op">-&gt;</span>PUPDR <span class="op">|=</span>  <span class="op">(</span>GPIO_PUPDR_PUPD7_0 <span class="op">|</span> GPIO_PUPDR_PUPD8_0<span class="op">);</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Pin 7 configured from AFRL register, and pin 8 configured from AFRH */</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    GPIOG<span class="op">-&gt;</span>AFR<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&amp;=</span> <span class="op">~</span>GPIO_AFRL_AFSEL7<span class="op">;</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>    GPIOG<span class="op">-&gt;</span>AFR<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">|=</span>  <span class="op">(</span><span class="dv">8</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> GPIO_AFRL_AFSEL7_Pos<span class="op">);</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    GPIOG<span class="op">-&gt;</span>AFR<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">&amp;=</span> <span class="op">~</span>GPIO_AFRH_AFSEL8<span class="op">;</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>    GPIOG<span class="op">-&gt;</span>AFR<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">|=</span>  <span class="op">(</span><span class="dv">8</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> GPIO_AFRH_AFSEL8_Pos<span class="op">);</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>APB1ENR2 <span class="op">|=</span> RCC_APB1ENR2_LPUART1EN<span class="op">;</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>CCIPR1 <span class="op">&amp;=</span> <span class="op">~</span>RCC_CCIPR1_LPUART1SEL<span class="op">;</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>CCIPR1 <span class="op">|=</span> RCC_CCIPR1_LPUART1SEL_0<span class="op">;</span></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>    LPUART1<span class="op">-&gt;</span>BRR <span class="op">=</span> <span class="op">(</span><span class="dt">uint32_t</span><span class="op">)((</span><span class="dv">256</span><span class="bu">U</span> <span class="op">*</span> clk_hz<span class="op">)</span> <span class="op">/</span> baud_rate<span class="op">);</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>    LPUART1<span class="op">-&gt;</span>CR1 <span class="op">|=</span> <span class="op">(</span>USART_CR1_UE <span class="op">|</span> USART_CR1_TE <span class="op">|</span> USART_CR1_RE<span class="op">);</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> uart_putc<span class="op">(</span><span class="dt">uint8_t</span> c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!(</span>LPUART1<span class="op">-&gt;</span>ISR <span class="op">&amp;</span> USART_ISR_TXE<span class="op">));</span></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>    LPUART1<span class="op">-&gt;</span>TDR <span class="op">=</span> c<span class="op">;</span></span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!(</span>LPUART1<span class="op">-&gt;</span>ISR <span class="op">&amp;</span> USART_ISR_TC<span class="op">));</span></span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a><span class="dt">uint8_t</span> uart_getc<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!(</span>LPUART1<span class="op">-&gt;</span>ISR <span class="op">&amp;</span> USART_ISR_RXNE<span class="op">));</span></span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(</span><span class="dt">uint8_t</span><span class="op">)</span>LPUART1<span class="op">-&gt;</span>RDR<span class="op">;</span></span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> uart_puts<span class="op">(</span><span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(*</span>s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a>        uart_putc<span class="op">((</span><span class="dt">uint8_t</span><span class="op">)*</span>s<span class="op">++);</span></span>
+<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a><span class="co">/* the rest of the code from before */</span></span>
+<span id="cb32-48"><a href="#cb32-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-49"><a href="#cb32-49" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-50"><a href="#cb32-50" aria-hidden="true" tabindex="-1"></a>    SysTick_Config<span class="op">(</span><span class="dv">4000</span><span class="op">);</span> <span class="co">// STM32L552ZEQ runs at 4MHz after reset</span></span>
+<span id="cb32-51"><a href="#cb32-51" aria-hidden="true" tabindex="-1"></a>    configure_lpuart1<span class="op">(</span><span class="dv">4000000</span><span class="op">,</span> <span class="dv">115200</span><span class="op">);</span></span>
+<span id="cb32-52"><a href="#cb32-52" aria-hidden="true" tabindex="-1"></a>    __enable_irq<span class="op">();</span></span>
+<span id="cb32-53"><a href="#cb32-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-54"><a href="#cb32-54" aria-hidden="true" tabindex="-1"></a>    enable_gpioa<span class="op">();</span></span>
+<span id="cb32-55"><a href="#cb32-55" aria-hidden="true" tabindex="-1"></a>    configure_gpioa<span class="op">();</span></span>
+<span id="cb32-56"><a href="#cb32-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-57"><a href="#cb32-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb32-58"><a href="#cb32-58" aria-hidden="true" tabindex="-1"></a>        uart_puts<span class="op">(</span><span class="st">&quot;toggling the LED</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb32-59"><a href="#cb32-59" aria-hidden="true" tabindex="-1"></a>        toggle_led<span class="op">();</span></span>
+<span id="cb32-60"><a href="#cb32-60" aria-hidden="true" tabindex="-1"></a>        systick_delay_ms<span class="op">(</span><span class="dv">500</span><span class="op">);</span></span>
+<span id="cb32-61"><a href="#cb32-61" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb32-62"><a href="#cb32-62" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>Compiling and flashing this code to the board will make the LED
+      blink with a 1 Hz frequency. You can use <code>coolterm</code>,
+      <code>minicom</code> or any other such program to observe the
+      serial output, but we will use <code>minicom</code> here. We
+      specify which device it should listen to with the <code>-D</code>
+      flag. The settings concerning baud rate, parity bits, and stop
+      bits all have the correct default values for me, so I don’t need
+      to give them.</p>
+      <div class="sourceCode" id="cb33"><pre
+      class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">minicom</span> <span class="at">-D</span> /dev/ttyACM0</span></code></pre></div>
+      <p>The <code>/dev/ttyACM0</code> identifies our device. You can
+      run <code>ls /dev/ttyACM*</code> to see what candidates you have
+      on your machine. Observe that your board needs to be connected to
+      find it like this. <code>minicom</code> will then show repeated
+      lines of output, like so</p>
+      <pre><code>toggling the LED
+toggling the LED
+...</code></pre>
+      <h2 id="final-remarks">Final Remarks</h2>
+      <p>The buildable and runnable code for this blog post can be found
+      <a
+      href="https://github.com/Rewbert/bare-metal-stm32-nucleo/tree/main/1">here</a>.
+      Clone the repository and follow the instructions in the
+      README.</p>
+      <p>This initial post is quite introductory and very few
+      interesting things happened with the board itself. We did,
+      however, establish how software is written, built, and flashed
+      onto the board. I have done a considerable amount of programming
+      of this board (and two other boards in the same family), and I
+      intend to write about all of it (when I have time).</p>
+      <p>Ultimately, we are going to write bare metal programs that
+      engage in confidential computing using Arm TrustZone-M.
+      Furthermore, we are going to run Haskell natively on a board and
+      program the TrustZone using that. This is a considerable research
+      effort, which I hope will keep many readers interested throughout.
+      I will update the blog entries with links to the <em>next</em>
+      entry as I write them, so if you read a post and there is no link
+      to the next one at the bottom of it, that means I have not written
+      it yet.</p>
+
+    </div><br><br>
+
+    <!-- footer -->
+    <hr style="max-width: 300px;"><br>
+
+    <div style="display: flex; justify-content: center;">
+      <a href="https://github.com/Rewbert" target="_blank">
+        <img src="../../github-logo/github-mark.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-right: 10px;">
+      </a>
+
+      <a href="https://www.linkedin.com/in/robert-krook-14ab97121/" target="_blank">
+        <img src="../../LinkedIn-Logos/LI-In-Bug.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px; padding-right: 10px;">
+      </a>
+
+      <a href="https://twitter.com/Rewbert" target="_blank">
+        <img src="../../x-logo/logo-black.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px;">
+      </a>
+    </div><br>
+
+  </body>
+</html>

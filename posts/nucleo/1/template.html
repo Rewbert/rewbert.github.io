@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="$description$">
+    <title>Robert Krook - Posts - $title$</title>
+    <link rel="canonical" href="$url$">
+    <link rel="icon" href="/resources/me.jpg" type="image/jpeg">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="$title$">
+    <meta property="og:description" content="$description$">
+    <meta property="og:url" content="$url$">
+    <meta property="og:image" content="$image$">
+    <meta property="og:site_name" content="Robert Krook">
+    <meta property="article:published_time" content="$date-iso$">
+    <meta property="article:author" content="https://www.krook.dev">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Rewbert">
+    <meta name="twitter:title" content="$title$">
+    <meta name="twitter:description" content="$description$">
+    <meta name="twitter:image" content="$image$">
+
+    <!-- JSON-LD: Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "$title$",
+      "description": "$description$",
+      "image": "$image$",
+      "keywords": "$keywords$",
+      "author": {"@type": "Person", "name": "Robert Krook", "url": "https://www.krook.dev"},
+      "datePublished": "$date-iso$",
+      "url": "$url$",
+      "inLanguage": "en"
+    }
+    </script>
+
+    <!-- styling -->
+    <link rel="stylesheet" href="../../../style/style.css">
+
+    <!-- ubuntu sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+    <!-- post typography: keeps markdown free of per-element style/class litter -->
+    <style>
+      body {
+        font-family: "Ubuntu Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 350;
+        font-style: normal;
+        font-size: 20px;
+      }
+      h2 { font-size: 32px; margin-top: 1.4em; }
+      h3, h4, h5, h6 { font-size: 26px; margin-top: 1.2em; }
+      img { max-width: 100%; height: auto; display: block; margin: 1em auto; }
+      figure { margin: 1.4em auto; text-align: center; }
+      figcaption { font-size: 16px; font-style: italic; color: #555; margin-top: 0.4em; }
+      pre {
+        overflow-x: auto;
+        background-color: #f6f6f6;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 12px 16px;
+      }
+      code { font-family: Consolas, Monaco, "Ubuntu Mono", monospace; font-size: 0.8em; }
+    </style>
+
+    <!-- pandoc's own build-time syntax highlighting (skylighting) - no client-side JS needed -->
+    <style>
+$highlighting-css$
+    </style>
+  </head>
+  <body>
+
+    <!-- landing page information with my face and some text -->
+    <div style="align-items: center; margin: auto; max-width: fit-content">
+      <img src="../../../resources/me.jpg" style="border-radius: 50%; margin: auto; display: block" class="landing-image" alt="image depicting Robert Krook, a functional programmer based in Gothenburg">
+      <h1 class="ubuntu-font" style="text-align: center; font-size: 38px">Robert Krook</h1>
+      <hr>
+      <p class="ubuntu-font" style="text-align: center; font-size: 24px;">
+        <a class="link-style-underline" href="../../../index.html">Front page</a> /
+        <a class="link-style-underline" href="../../../pages/posts.html">Posts</a>
+      </p>
+    </div>
+
+    <div class="post">
+      <hr>
+      <h1 class="ubuntu-font" style="font-size: 40px; text-align: center; text-decoration: underline;">$title$</h1>
+
+      $body$
+
+    </div><br><br>
+
+    <!-- footer -->
+    <hr style="max-width: 300px;"><br>
+
+    <div style="display: flex; justify-content: center;">
+      <a href="https://github.com/Rewbert" target="_blank">
+        <img src="../../../github-logo/github-mark.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-right: 10px;">
+      </a>
+
+      <a href="https://www.linkedin.com/in/robert-krook-14ab97121/" target="_blank">
+        <img src="../../../LinkedIn-Logos/LI-In-Bug.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px; padding-right: 10px;">
+      </a>
+
+      <a href="https://twitter.com/Rewbert" target="_blank">
+        <img src="../../../x-logo/logo-black.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px;">
+      </a>
+    </div><br>
+
+  </body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="How to configure the PLL on the
+STM32L552ZEQ Nucleo board bare metal to raise the system clock from 4
+MHz to 110 MHz, covering the RCC-&gt;CR and RCC-&gt;PLLCFGR registers
+with arm-none-eabi-gcc and OpenOCD.">
+    <title>Robert Krook - Posts - Bare-Metal STM32L552ZEQ Nucleo
+Programming (Part 2): Configuring the PLL</title>
+    <link rel="canonical" href="https://www.krook.dev/posts/nucleo/2/post.html">
+    <link rel="icon" href="/resources/me.jpg" type="image/jpeg">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Bare-Metal STM32L552ZEQ Nucleo
+Programming (Part 2): Configuring the PLL">
+    <meta property="og:description" content="How to configure the PLL on
+the STM32L552ZEQ Nucleo board bare metal to raise the system clock from
+4 MHz to 110 MHz, covering the RCC-&gt;CR and RCC-&gt;PLLCFGR registers
+with arm-none-eabi-gcc and OpenOCD.">
+    <meta property="og:url" content="https://www.krook.dev/posts/nucleo/2/post.html">
+    <meta property="og:image" content="https://www.krook.dev/resources/me.jpg">
+    <meta property="og:site_name" content="Robert Krook">
+    <meta property="article:published_time" content="2026-07-13">
+    <meta property="article:author" content="https://www.krook.dev">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Rewbert">
+    <meta name="twitter:title" content="Bare-Metal STM32L552ZEQ Nucleo
+Programming (Part 2): Configuring the PLL">
+    <meta name="twitter:description" content="How to configure the PLL
+on the STM32L552ZEQ Nucleo board bare metal to raise the system clock
+from 4 MHz to 110 MHz, covering the RCC-&gt;CR and RCC-&gt;PLLCFGR
+registers with arm-none-eabi-gcc and OpenOCD.">
+    <meta name="twitter:image" content="https://www.krook.dev/resources/me.jpg">
+
+    <!-- JSON-LD: Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Bare-Metal STM32L552ZEQ Nucleo Programming (Part 2):
+Configuring the PLL",
+      "description": "How to configure the PLL on the STM32L552ZEQ
+Nucleo board bare metal to raise the system clock from 4 MHz to 110 MHz,
+covering the RCC-&gt;CR and RCC-&gt;PLLCFGR registers with
+arm-none-eabi-gcc and OpenOCD.",
+      "image": "https://www.krook.dev/resources/me.jpg",
+      "keywords": "stm32l5, stm32l552zeq, bare metal stm32, stm32
+nucleo, nucleo board programming, stm32 without stm32cubeide, stm32
+without cubeide, stm32 pll configuration, stm32 clock configuration, rcc
+register, pllcfgr, system clock, arm cortex-m33, embedded c,
+arm-none-eabi-gcc, openocd, cmsis",
+      "author": {"@type": "Person", "name": "Robert Krook", "url": "https://www.krook.dev"},
+      "datePublished": "2026-07-13",
+      "url": "https://www.krook.dev/posts/nucleo/2/post.html",
+      "inLanguage": "en"
+    }
+    </script>
+
+    <!-- styling -->
+    <link rel="stylesheet" href="../../../style/style.css">
+
+    <!-- ubuntu sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+    <!-- post typography: keeps markdown free of per-element style/class litter -->
+    <style>
+      body {
+        font-family: "Ubuntu Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 350;
+        font-style: normal;
+        font-size: 20px;
+      }
+      h2 { font-size: 32px; margin-top: 1.4em; }
+      h3, h4, h5, h6 { font-size: 26px; margin-top: 1.2em; }
+      img { max-width: 100%; height: auto; display: block; margin: 1em auto; }
+      figure { margin: 1.4em auto; text-align: center; }
+      figcaption { font-size: 16px; font-style: italic; color: #555; margin-top: 0.4em; }
+      pre {
+        overflow-x: auto;
+        background-color: #f6f6f6;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 12px 16px;
+      }
+      code { font-family: Consolas, Monaco, "Ubuntu Mono", monospace; font-size: 0.8em; }
+    </style>
+
+    <!-- pandoc's own build-time syntax highlighting (skylighting) - no client-side JS needed -->
+    <style>
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    </style>
+  </head>
+  <body>
+
+    <!-- landing page information with my face and some text -->
+    <div style="align-items: center; margin: auto; max-width: fit-content">
+      <img src="../../../resources/me.jpg" style="border-radius: 50%; margin: auto; display: block" class="landing-image" alt="image depicting Robert Krook, a functional programmer based in Gothenburg">
+      <h1 class="ubuntu-font" style="text-align: center; font-size: 38px">Robert Krook</h1>
+      <hr>
+      <p class="ubuntu-font" style="text-align: center; font-size: 24px;">
+        <a class="link-style-underline" href="../../../index.html">Front page</a> /
+        <a class="link-style-underline" href="../../../pages/posts.html">Posts</a>
+      </p>
+    </div>
+
+    <div class="post">
+      <hr>
+      <h1 class="ubuntu-font" style="font-size: 40px; text-align: center; text-decoration: underline;">Bare-Metal
+STM32L552ZEQ Nucleo Programming (Part 2): Configuring the PLL</h1>
+
+      <h2 id="introduction">Introduction</h2>
+      <p>In this post we will program the board’s PLL peripheral to
+      output a <code>110</code> MHz clock, which we will then use as the
+      system clock. This, naturally, makes our board execute code
+      faster.</p>
+      <p>Before reading this content, I suggest you read <a
+      href="https://www.krook.dev/posts/nucleo/1/post.html">the first
+      entry in this series of blog posts</a>.</p>
+      <h3 id="pll">PLL</h3>
+      <p>After reset, the STM32L552ZEQ is clocked by a 4 MHz internal
+      oscillator. By engaging the PLL we can get access to a clock of
+      110 MHz. After conferring with my mentor in this space (<a
+      href="https://svenssonjoel.github.io/index.html">my PhD co-advisor
+      Joel</a>) my understanding is that - Making an oscillator with a
+      low, stable frequency: <em>easy</em> - Making an oscillator with a
+      high, stable frequency: <em>hard</em></p>
+      <p>What the PLL does in this case is to run a separate fast
+      oscillator and use feedback to lock the fast oscillator to a
+      multiple of the slow and steady crystal. I won’t go into the
+      details of how it actually works, but I hope that this short
+      explanation is enough to give some intuition. Once the PLL
+      peripheral on our board has been configured, it is producing three
+      different clocks. We can configure the board to use one of these
+      as the system clock.</p>
+      <p>Figuring out how to do this wasn’t trivial, but in the end I
+      landed on something that worked. The reference manual has quite a
+      clear step-by-step guide for how the PLL should be configured</p>
+      <figure>
+      <img src="graphics/page336-1.png"
+      alt="PLL configuration overview: the five-step sequence for enabling the PLL (reference manual, p. 336)." />
+      <figcaption aria-hidden="true">PLL configuration overview: the
+      five-step sequence for enabling the PLL (reference manual,
+      p. 336).</figcaption>
+      </figure>
+      <p>All but one of the steps are quite straightforward. The third
+      step is where we need to be clever.</p>
+      <h4
+      id="step-1-2---disabling-the-pll-and-waiting-for-it-to-stop">Step
+      1 &amp; 2 - Disabling the PLL and waiting for it to stop</h4>
+      <p>This is done with very few lines of code. The <code>RCC</code>
+      peripheral is responsible for turning the PLL off. The
+      step-by-step guide above tells us which register is responsible
+      for this, <code>RCC-&gt;CR</code>.</p>
+      <figure>
+      <img src="graphics/page349-1.png"
+      alt="RCC CR register: overview, including the PLLON and PLLRDY bits (reference manual, p. 349)." />
+      <figcaption aria-hidden="true">RCC CR register: overview,
+      including the PLLON and PLLRDY bits (reference manual,
+      p. 349).</figcaption>
+      </figure>
+      <p>Looking at the relevant bits, we find the descriptions</p>
+      <figure>
+      <img src="graphics/page350-1.png"
+      alt="RCC CR register: PLLON is set by software, PLLRDY is set by hardware (reference manual, p. 350)." />
+      <figcaption aria-hidden="true">RCC CR register: PLLON is set by
+      software, PLLRDY is set by hardware (reference manual,
+      p. 350).</figcaption>
+      </figure>
+      <p>The descriptions say that <code>PLLON</code> is set by software
+      (us), whereas <code>PLLRDY</code> is set by hardware (the board).
+      We should set the <code>PLLON</code> bit to turn on the PLL, and
+      then wait until the board sets the <code>PLLRDY</code> bit, so
+      that we know the PLL has engaged properly.</p>
+      <p>We write this code to implement step 1 and 2.</p>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>RCC<span class="op">-&gt;</span>CR <span class="op">&amp;</span> RCC_CR_PLLON<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>CR <span class="op">&amp;=</span> <span class="op">~</span>RCC_CR_PLLON<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>RCC<span class="op">-&gt;</span>CR <span class="op">&amp;</span> RCC_CR_PLLRDY<span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <h4 id="step-3---configuring-the-pll">Step 3 - Configuring the
+      PLL</h4>
+      <p>Before we begin configuring the PLL, we reiterate that we want
+      to configure our board to run at 110 MHz rather than the 4 MHz it
+      is running at after reset. The board has three PLL peripherals,
+      and we want to configure the one simply called PLL. The other two
+      are PLLSAI1 and PLLSAI2, and I believe they are for audio-related
+      applications, but I have not bothered using them. The PLL
+      configuration register that we want to modify is found in the
+      <code>RCC</code> peripheral, <code>RCC_PLLCFGR</code>.</p>
+      <figure>
+      <img src="graphics/page356-1.png"
+      alt="RCC PLLCFGR register: overview, including the VCO clock formula (reference manual, p. 356)." />
+      <figcaption aria-hidden="true">RCC PLLCFGR register: overview,
+      including the VCO clock formula (reference manual,
+      p. 356).</figcaption>
+      </figure>
+      <p>There are some formulas here, and we will try to break them
+      down. <code>f</code> is not some magic function, and rather just
+      means “frequency of”. The <code>VCO clock</code> being mentioned
+      is the oscillator running inside the PLL, which we will use
+      feedback to adjust until it is a stable frequency, in relation to
+      the input clock. Spelling out the first formula in words, it
+      says</p>
+      <p>“The frequency of the internal oscillator equals the frequency
+      of the input clock, multiplied by n divided by m”</p>
+      <p>The three outputs, <code>P</code>, <code>Q</code>, and
+      <code>R</code>, are then derived by dividing that clock by a
+      factor. We read from the page above that <code>R</code> is the
+      output that we can use as the system clock, so we need to pick
+      <code>N</code>, <code>M</code>, and <code>R</code> such that the
+      formula equals 110 MHz.</p>
+      <p>Our input will be the MSI clock, running at 4 MHz (this is the
+      default configuration after reset). If we pick <code>N = 55</code>
+      and <code>M = 1</code>, we get</p>
+      <pre><code>f(VCO clock) = f(PLL clock input) * (55 / 1)
+f(VCO clock) = 4000000 * 55
+f(VCO clock) = 220000000</code></pre>
+      <p>These values for <code>N</code> and <code>M</code> turn
+      <code>f(VCO clock)</code> into a <code>220</code> MHz clock, and
+      by picking <code>PLLR</code> to be <code>2</code>, we get
+      <code>f(PLL_R)</code> to be <code>110</code> MHz, our desired
+      frequency. The page above shows us that if we write <code>0</code>
+      to <code>PLLR</code>, we pick <code>R</code> to be <code>2</code>.
+      For fields <code>PLLM</code> and <code>PLLN</code>, we refer to
+      two pages down in the reference manual</p>
+      <figure>
+      <img src="graphics/page358-1.png"
+      alt="RCC PLLCFGR register: PLLN, PLLM, and PLLSRC field encodings (reference manual, p. 358)." />
+      <figcaption aria-hidden="true">RCC PLLCFGR register: PLLN, PLLM,
+      and PLLSRC field encodings (reference manual,
+      p. 358).</figcaption>
+      </figure>
+      <p>We see that we must write <code>55</code> to <code>PLLN</code>,
+      and <code>0</code> to <code>PLLM</code>. Additionally, we see that
+      the input clock source must get the value <code>01</code> in order
+      to use the MSI clock as its input. The reset value is
+      <code>00</code>, so this must be changed first.</p>
+      <div class="sourceCode" id="cb3"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* First, we reset every register we intend to configure (writing all 0s to them) */</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>RCC<span class="op">-&gt;</span>PLLCFGR <span class="op">&amp;=</span> <span class="op">~(</span> RCC_PLLCFGR_PLLSRC</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                 <span class="op">|</span> RCC_PLLCFGR_PLLM</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                 <span class="op">|</span> RCC_PLLCFGR_PLLN</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                 <span class="op">|</span> RCC_PLLCFGR_PLLR<span class="op">);</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">/* Then, we write out configuration */</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>RCC<span class="op">-&gt;</span>PLLCFGR <span class="op">|=</span> RCC_PLLCFGR_PLLSRC_0</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>              <span class="op">|</span> <span class="op">(</span><span class="dv">0</span>  <span class="op">&lt;&lt;</span> RCC_PLLCFGR_PLLM_Pos<span class="op">)</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>              <span class="op">|</span> <span class="op">(</span><span class="dv">55</span> <span class="op">&lt;&lt;</span> RCC_PLLCFGR_PLLN_Pos<span class="op">)</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>              <span class="op">|</span> <span class="op">(</span><span class="dv">0</span>  <span class="op">&lt;&lt;</span> RCC_PLLCFGR_PLLR_Pos<span class="op">);</span></span></code></pre></div>
+      <p>This configuration will set the input clock to the
+      <code>4</code> MHz MSI clock, and pick our desired values for
+      <code>N</code>, <code>M</code>, and <code>R</code>, to produce an
+      output clock of <code>110</code> MHz. We have not yet enabled the
+      output clock, and we cannot do so until we do some additional
+      configuration.</p>
+      <h4 id="step-4---enabling-the-pll">Step 4 - Enabling the PLL</h4>
+      <p>The fourth step is simply to turn the PLL back on.</p>
+      <div class="sourceCode" id="cb4"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>RCC<span class="op">-&gt;</span>CR <span class="op">|=</span> RCC_CR_PLLON<span class="op">;</span></span></code></pre></div>
+      <p>While omitted from the step-by-step list, it is good to wait
+      for the PLL to properly start before proceeding. It is not a
+      requirement, however. We wait for the <code>PLLRDY</code> bit to
+      be <em>set</em>, rather than cleared.</p>
+      <div class="sourceCode" id="cb5"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(!(</span>RCC<span class="op">-&gt;</span>CR <span class="op">&amp;</span> RCC_CR_PLLRDY<span class="op">));</span></span></code></pre></div>
+      <h4 id="step-5---enabling-the-desired-output">Step 5 - Enabling
+      the desired output</h4>
+      <p>The fifth and final step is to enable the specific output(s) we
+      want the PLL to produce. We only care about the <code>R</code>
+      output, so we only enable <code>PLLREN</code>.</p>
+      <div class="sourceCode" id="cb6"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>RCC<span class="op">-&gt;</span>PLLCFGR <span class="op">|=</span> RCC_PLLCFGR_PLLREN<span class="op">;</span></span></code></pre></div>
+      <p>The PLL is now fully configured, running, and producing a
+      <code>110</code> MHz clock on its <code>R</code> output. The only
+      thing left to do is to use the PLL as the system clock.</p>
+      <h3 id="changing-the-system-clock">Changing the system clock</h3>
+      <p>Page 182 gives us instructions for how to increase and decrease
+      the system clock. Most notably, before we can tell the board to
+      use the PLL clock, we must change the <em>flash wait
+      states</em>.</p>
+      <figure>
+      <img src="graphics/page182-1.png"
+      alt="System clock switching: the required sequence, including flash wait states (reference manual, p. 182)." />
+      <figcaption aria-hidden="true">System clock switching: the
+      required sequence, including flash wait states (reference manual,
+      p. 182).</figcaption>
+      </figure>
+      <h4 id="changing-flash-wait-states">Changing flash wait
+      states</h4>
+      <p>This was a gotcha for me, but made sense once I figured it out.
+      When we go from the default <code>4</code> MHz system clock to a
+      <code>110</code> MHz one, the board is fetching and executing
+      instructions from FLASH more than 27.5 times faster than before.
+      The FLASH cannot deliver them fast enough, so without adding an
+      artificial delay, the board will throw an error. This
+      configuration is called <em>flash wait states</em>, and it has to
+      happen <em>before</em> we switch the system clock over below, or
+      the CPU starts missing instruction fetches the moment the switch
+      takes effect. On page 181 of the reference manual, we find this
+      table.</p>
+      <figure>
+      <img src="graphics/page181-1.png"
+      alt="FLASH latency table: wait states required per system clock frequency (reference manual, p. 181)." />
+      <figcaption aria-hidden="true">FLASH latency table: wait states
+      required per system clock frequency (reference manual,
+      p. 181).</figcaption>
+      </figure>
+      <p>If we set the system clock to <code>110</code> MHz, we must
+      configure five flash wait states.</p>
+      <div class="sourceCode" id="cb7"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* Set the number of wait states */</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>FLASH<span class="op">-&gt;</span>ACR <span class="op">=</span> <span class="op">(</span>FLASH<span class="op">-&gt;</span>ACR <span class="op">&amp;</span> <span class="op">~</span>FLASH_ACR_LATENCY<span class="op">)</span> <span class="op">|</span> <span class="op">(</span><span class="dv">5</span> <span class="op">&lt;&lt;</span> FLASH_ACR_LATENCY_Pos<span class="op">);</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">/* Wait for the change to go into effect */</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">((</span>FLASH<span class="op">-&gt;</span>ACR <span class="op">&amp;</span> FLASH_ACR_LATENCY<span class="op">)</span> <span class="op">!=</span> <span class="op">(</span><span class="dv">5</span> <span class="op">&lt;&lt;</span> FLASH_ACR_LATENCY_Pos<span class="op">));</span></span></code></pre></div>
+      <h4 id="selecting-the-system-clock">Selecting the system
+      clock</h4>
+      <p>With the PLL running and flash configured for the higher
+      frequency, we can finally select the PLL as the system clock. This
+      is, again, not part of the PLL step-by-step guide — it’s a
+      separate procedure, found by consulting the <code>RCC_CFGR</code>
+      register.</p>
+      <figure>
+      <img src="graphics/page353-1.png"
+      alt="RCC CFGR register: overview, including the SW and SWS bit fields (reference manual, p. 353)." />
+      <figcaption aria-hidden="true">RCC CFGR register: overview,
+      including the SW and SWS bit fields (reference manual,
+      p. 353).</figcaption>
+      </figure>
+      <p>By programming the <code>SW</code> bits we can say which clock
+      should be used as the system clock, while the hardware sets the
+      <code>SWS</code> bits to say what clock is <em>currently being
+      used</em> as the system clock.</p>
+      <figure>
+      <img src="graphics/page355-1.png"
+      alt="RCC CFGR register: SW bit encodings for selecting the system clock source (reference manual, p. 355)." />
+      <figcaption aria-hidden="true">RCC CFGR register: SW bit encodings
+      for selecting the system clock source (reference manual,
+      p. 355).</figcaption>
+      </figure>
+      <p>This page tells us that <code>00</code> means that it is using
+      the MSI clock, whereas <code>11</code> means that we’re using the
+      PLL clock. We do the necessary adjustments, and then wait for
+      <code>SWS</code> to indicate that the <code>PLL</code> is being
+      used.</p>
+      <div class="sourceCode" id="cb8"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>RCC<span class="op">-&gt;</span>CFGR <span class="op">=</span> <span class="op">(</span>RCC<span class="op">-&gt;</span>CFGR <span class="op">&amp;</span> <span class="op">~</span>RCC_CFGR_SW<span class="op">)</span> <span class="op">|</span> <span class="op">(</span><span class="dv">3</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> RCC_CFGR_SW_Pos<span class="op">);</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">((</span>RCC<span class="op">-&gt;</span>CFGR <span class="op">&amp;</span> RCC_CFGR_SWS<span class="op">)</span> <span class="op">!=</span> RCC_CFGR_SWS<span class="op">);</span></span></code></pre></div>
+      <p>Once our program proceeds past this line, the PLL is properly
+      configured and our board is running at 110 MHz. Amazing! Putting
+      it all together as one procedure, we get</p>
+      <div class="sourceCode" id="cb9"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> pll_configure_110mhz<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Step 1 &amp; 2 - Disable the PLL and wait for it to stop */</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>RCC<span class="op">-&gt;</span>CR <span class="op">&amp;</span> RCC_CR_PLLON<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        RCC<span class="op">-&gt;</span>CR <span class="op">&amp;=</span> <span class="op">~</span>RCC_CR_PLLON<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>RCC<span class="op">-&gt;</span>CR <span class="op">&amp;</span> RCC_CR_PLLRDY<span class="op">);</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Step 3 - Configure the PLL */</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>PLLCFGR <span class="op">&amp;=</span> <span class="op">~(</span> RCC_PLLCFGR_PLLSRC</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>                     <span class="op">|</span> RCC_PLLCFGR_PLLM</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                     <span class="op">|</span> RCC_PLLCFGR_PLLN</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                     <span class="op">|</span> RCC_PLLCFGR_PLLR<span class="op">);</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>PLLCFGR <span class="op">|=</span> RCC_PLLCFGR_PLLSRC_0</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                  <span class="op">|</span> <span class="op">(</span><span class="dv">0</span>  <span class="op">&lt;&lt;</span> RCC_PLLCFGR_PLLM_Pos<span class="op">)</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                  <span class="op">|</span> <span class="op">(</span><span class="dv">55</span> <span class="op">&lt;&lt;</span> RCC_PLLCFGR_PLLN_Pos<span class="op">)</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                  <span class="op">|</span> <span class="op">(</span><span class="dv">0</span>  <span class="op">&lt;&lt;</span> RCC_PLLCFGR_PLLR_Pos<span class="op">);</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Step 4 - Enable the PLL */</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>CR <span class="op">|=</span> RCC_CR_PLLON<span class="op">;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(!(</span>RCC<span class="op">-&gt;</span>CR <span class="op">&amp;</span> RCC_CR_PLLRDY<span class="op">));</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Step 5 - Enable the desired output */</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>PLLCFGR <span class="op">|=</span> RCC_PLLCFGR_PLLREN<span class="op">;</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Set the number of flash wait states before switching the system clock */</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    FLASH<span class="op">-&gt;</span>ACR <span class="op">=</span> <span class="op">(</span>FLASH<span class="op">-&gt;</span>ACR <span class="op">&amp;</span> <span class="op">~</span>FLASH_ACR_LATENCY<span class="op">)</span> <span class="op">|</span> <span class="op">(</span><span class="dv">5</span> <span class="op">&lt;&lt;</span> FLASH_ACR_LATENCY_Pos<span class="op">);</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">((</span>FLASH<span class="op">-&gt;</span>ACR <span class="op">&amp;</span> FLASH_ACR_LATENCY<span class="op">)</span> <span class="op">!=</span> <span class="op">(</span><span class="dv">5</span> <span class="op">&lt;&lt;</span> FLASH_ACR_LATENCY_Pos<span class="op">));</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">/* Select the PLL as the system clock */</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    RCC<span class="op">-&gt;</span>CFGR <span class="op">=</span> <span class="op">(</span>RCC<span class="op">-&gt;</span>CFGR <span class="op">&amp;</span> <span class="op">~</span>RCC_CFGR_SW<span class="op">)</span> <span class="op">|</span> <span class="op">(</span><span class="dv">3</span><span class="bu">U</span> <span class="op">&lt;&lt;</span> RCC_CFGR_SW_Pos<span class="op">);</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">((</span>RCC<span class="op">-&gt;</span>CFGR <span class="op">&amp;</span> RCC_CFGR_SWS<span class="op">)</span> <span class="op">!=</span> RCC_CFGR_SWS<span class="op">);</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <h3 id="updating-our-application">Updating our application</h3>
+      <p>The application from the previous blog post configured the
+      systick handler and the UART, both with the assumption that the
+      board was running at 4 MHz. When we now configure the board to run
+      at 110 MHz, we need to account for this change. Below is the
+      complete updated application</p>
+      <div class="sourceCode" id="cb10"><pre
+      class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    pll_configure_110mhz<span class="op">();</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    SysTick_Config<span class="op">(</span><span class="dv">110000</span><span class="op">);</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    configure_lpuart1<span class="op">(</span><span class="dv">110000000</span><span class="op">,</span> <span class="dv">115200</span><span class="op">);</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    __enable_irq<span class="op">();</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    enable_gpioa<span class="op">();</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    configure_gpioa<span class="op">();</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        uart_puts<span class="op">(</span><span class="st">&quot;toggling the LED</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        toggle_led<span class="op">();</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        systick_delay_ms<span class="op">(</span><span class="dv">500</span><span class="op">);</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+      <p>This program should blink the LED exactly as before, and output
+      text over the UART unchanged. If you did not change the
+      <code>SysTick_Config</code> and <code>configure_lpuart1</code>
+      parameters, the LED would blink much faster (since the 4000 ticks
+      are exhausted much faster), and the UART would output garbage.</p>
+      <h3 id="final-remarks">Final Remarks</h3>
+      <p>The <a
+      href="https://github.com/Rewbert/bare-metal-stm32-nucleo/tree/main/2">code
+      for this post can be found on my GitHub</a>.</p>
+      <p>Part 3 is yet to be written, but will be linked here when it is
+      available.</p>
+
+    </div><br><br>
+
+    <!-- footer -->
+    <hr style="max-width: 300px;"><br>
+
+    <div style="display: flex; justify-content: center;">
+      <a href="https://github.com/Rewbert" target="_blank">
+        <img src="../../../github-logo/github-mark.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-right: 10px;">
+      </a>
+
+      <a href="https://www.linkedin.com/in/robert-krook-14ab97121/" target="_blank">
+        <img src="../../../LinkedIn-Logos/LI-In-Bug.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px; padding-right: 10px;">
+      </a>
+
+      <a href="https://twitter.com/Rewbert" target="_blank">
+        <img src="../../../x-logo/logo-black.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px;">
+      </a>
+    </div><br>
+
+  </body>
+</html>

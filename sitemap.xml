@@ -14,11 +14,11 @@
 </url>
 <url>
 <loc>https://krook.dev/pages/posts.html</loc>
-<lastmod>2025-04-08</lastmod>
+<lastmod>2026-07-13</lastmod>
 </url>
 <url>
 <loc>https://krook.dev/pages/publications.html</loc>
-<lastmod>2024-07-25</lastmod>
+<lastmod>2026-07-14</lastmod>
 </url>
 <url>
 <loc>https://krook.dev/pages/resume.html</loc>
@@ -63,6 +63,10 @@
 <url>
 <loc>https://krook.dev/papers/sensevm.pdf</loc>
 <lastmod>2024-05-31</lastmod>
+</url>
+<url>
+<loc>https://krook.dev/papers/cloudHaskell2026.pdf</loc>
+<lastmod>2026-07-14</lastmod>
 </url>
 <url>
 <loc>https://krook.dev/posts/hmarket/hmarket.html</loc>

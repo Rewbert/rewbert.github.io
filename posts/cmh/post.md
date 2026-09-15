@@ -12,8 +12,7 @@ CloudMicroHaskell and the accompanying [paper](https://www.krook.dev/papers/clou
 Lennart presented the paper at the 2026 ACM SIGPLAN Haskell Symposium in Indianapolis.
 
 CloudMicroHaskell reimplements Cloud Haskell on top of MicroHs.
-Its defining feature is MicroHs's two compiler primitives for serializing and deserializing almost any value.
-The compiler can serialize any value for which serialization is meaningful, excluding runtime resources such as:
+Its defining feature is MicroHs's two compiler primitives for serializing and deserializing almost any value. Exceptions are runtime resources such as:
 
 1. MVars
 2. Threads
@@ -28,6 +27,11 @@ The same problem arises in parallel Haskell programming.
 
 This post introduces the CloudMicroHaskell API through examples, followed by generic servers and supervisors.
 It then explains how MicroHs implements serialization and concludes with links to the source code and related resources.
+
+I focus on presenting CloudMicroHaskell and draw few parallells to Cloud Haskell.
+The reason for this is that the underlying idea and design is so similar that very little is added by contrasting every example with Cloud Haskell.
+For readers curious to learn more, we refer to [our paper](https://www.krook.dev/papers/cloudHaskell2026.pdf) and the original [Cloud Haskell](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf) paper.
+
 Some figures and examples are adapted from our paper.
 
 ## Distributed Programming with CloudMicroHaskell
@@ -348,7 +352,7 @@ The laptop joins the same network and can control the LEDs using keyboard comman
 All three use the ordinary CloudMicroHaskell API, even though the laptop runs a 64-bit runtime and the microcontrollers run 32-bit runtimes compiled as different binaries.
 
 This example illustrates why MicroHs is an interesting foundation for distributed Haskell.
-Its compiled runtime is roughly 300 KB, making it small enough to run on these microcontrollers.
+The compiled program requires roughly 300 KiB of flash, making it small enough to run on these microcontrollers.
 The [STM32H5 example repository](https://github.com/Rewbert/stm32h5-mch-demo) contains the source code and build instructions.
 
 ## Serialisation & Deserialisation
@@ -432,17 +436,13 @@ These graphs contain no native instructions tied to a particular processor archi
 
 Compiler-supported serialisation is not a new design alternative.
 The original Cloud Haskell paper explicitly considers an approach it calls “baking in” serialisability, in which the runtime system can serialise any value, including function closures.
-The authors ultimately reject this approach because a single built-in representation gives programmers less control over serialisation, some runtime-owned values must not be serialised, and making serialisation invisible can obscure its cost.
-
-CloudMicroHaskell deliberately revisits this alternative using MicroHs.
-It does not make every value serialisable, but its runtime primitives can serialise both ordinary data and functions while rejecting resources such as `MVar`s, threads, and pointers to C code.
-In this sense, CloudMicroHaskell explores what the original Cloud Haskell design might have looked like with the “bake it in” alternative.
+The authors ultimately reject this approach because a single built-in representation gives programmers less control over serialisation, some runtime-owned values must not be serialised, and making serialisation invisible can obscure its cost. CloudMicroHaskell nevertheless explores this approach.
 
 GHC takes a different approach.
 After optimisation, it compiles definitions to native code, and its runtime closures may refer to that compiled code.
 Serialising the heap graph of such a closure would therefore not produce a portable computation.
-Compiling definitions to native code therefore has two consequences: runtime closures are not portable between architectures, but programs execute much faster.
-In my informal experiments, GHC has been roughly two orders of magnitude faster than MicroHs, while MicroHs has performed closer to GHCi.
+There are two relevant consequences from this: runtime closures are not portable between architectures, but programs execute much faster.
+In my informal experiments, compiled GHC programs have been roughly two orders of magnitude faster than MicroHs, while MicroHs is somewhat on par with GHCi.
 
 Cloud Haskell works within this constraint by representing remote computations as explicit closures that refer to code already available on the receiving node.
 CloudMicroHaskell starts from a different premise: MicroHs can serialise the graph reachable from a computation, including both its code and captured values.
@@ -475,8 +475,6 @@ Lennart Augustsson presented the paper at the 2026 Haskell Symposium in Indianap
 
 Robert Krook also presented the paper at Chalmers University of Technology on 10 September 2026.
 This presentation was not recorded.
-
-### Code
 
 #### CloudMicroHaskell
 

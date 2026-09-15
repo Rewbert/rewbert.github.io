@@ -3,7 +3,7 @@ This is how I invoke pandoc to get the html for the different posts.
 pandoc posts/cmh/post.md \
   --standalone \
   --wrap=none \
-  --template=templates/post.html \
+  --template=templates/post-template.html \
   -V site-root=../.. \
   -o posts/cmh/post.html
 

@@ -4,7 +4,7 @@ description: "Learn how CloudMicroHaskell brings Cloud Haskell-style distributed
 keywords: "cloud haskell, cloudhaskell, cloudmicrohaskell, cloud micro haskell, microhs, microhaskell, lennart augustsson, distributed haskell, distributed programming, erlang-style concurrency, haskell serialization, process monitoring, generic servers, supervisors"
 url: "https://www.krook.dev/posts/cmh/post.html"
 image: "https://www.krook.dev/resources/me.jpg"
-date-iso: "2026-09-14"
+date-iso: "2026-09-15"
 ---
 ## Introduction
 

@@ -14,11 +14,11 @@
 </url>
 <url>
 <loc>https://www.krook.dev/pages/posts.html</loc>
-<lastmod>2026-07-13</lastmod>
+<lastmod>2026-09-15</lastmod>
 </url>
 <url>
 <loc>https://www.krook.dev/pages/publications.html</loc>
-<lastmod>2026-09-11</lastmod>
+<lastmod>2026-09-15</lastmod>
 </url>
 <url>
 <loc>https://www.krook.dev/pages/resume.html</loc>
@@ -95,5 +95,9 @@
 <url>
 <loc>https://www.krook.dev/posts/nucleo/2/post.html</loc>
 <lastmod>2026-07-13</lastmod>
+</url>
+<url>
+<loc>https://www.krook.dev/posts/cmh/post.html</loc>
+<lastmod>2026-09-15</lastmod>
 </url>
 </urlset>

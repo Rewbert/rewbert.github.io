@@ -139,7 +139,7 @@ parfill :: Trans a => ChanName a -> a -> b -> b
 ```
 
 A `Process a b` type models a process that takes a value of type `a` as input and returns a value of type `b`.
-Processes are declared via `process`, but actually started by `#`, which applies it to its input.
+Processes are declared via `process`, but are actually started by `#`, which applies it to its input.
 Channels can be used to send data between arbitrary processes, using the `new` and `parfill` functions.
 
 Eden separates three distinct things.

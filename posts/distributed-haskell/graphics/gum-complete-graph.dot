@@ -1,0 +1,61 @@
+digraph gum_complete_graph {
+  graph [
+    rankdir=TB,
+    ordering=out,
+    nodesep=0.35,
+    ranksep=0.55,
+    margin=0.05,
+    bgcolor="white"
+  ];
+
+  node [
+    fontname="monospace",
+    fontsize=13,
+    style="filled",
+    penwidth=1.4,
+    color="#4A5568",
+    fontcolor="#1A202C"
+  ];
+
+  root [
+    shape=plaintext,
+    label="root",
+    style="",
+    fontcolor="#4A5568"
+  ];
+
+  edge [
+    color="#4A5568",
+    arrowsize=0.7,
+    penwidth=1.2
+  ];
+
+  pair       [shape=box, label="(,)", fillcolor="#DFF5EA", color="#3A7D5B"];
+  left_head  [shape=box, label="(:)", fillcolor="#DFF5EA", color="#3A7D5B"];
+  left_tail  [shape=box, label="(:)", fillcolor="#DFF5EA", color="#3A7D5B"];
+  right_head [shape=box, label="(:)", fillcolor="#DFF5EA", color="#3A7D5B"];
+  right_tail [shape=box, label="(:)", fillcolor="#DFF5EA", color="#3A7D5B"];
+  nil        [shape=box, label="[]",  fillcolor="#DFF5EA", color="#3A7D5B"];
+
+  one   [shape=box, label="#1", fillcolor="#F1E8FF", color="#6B4CA0"];
+  two   [shape=box, label="#2", fillcolor="#F1E8FF", color="#6B4CA0"];
+  three [shape=box, label="#3", fillcolor="#F1E8FF", color="#6B4CA0"];
+  four  [shape=box, label="#4", fillcolor="#F1E8FF", color="#6B4CA0"];
+
+  root -> pair;
+
+  pair -> left_head;
+  pair -> right_head;
+
+  left_head -> one;
+  left_head -> left_tail;
+
+  right_head -> three;
+  right_head -> right_tail;
+
+  left_tail -> two;
+  left_tail -> nil;
+
+  right_tail -> four;
+  right_tail -> nil;
+}

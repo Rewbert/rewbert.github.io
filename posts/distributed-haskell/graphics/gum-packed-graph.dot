@@ -1,0 +1,68 @@
+digraph gum_packed_graph {
+  graph [
+    rankdir=TB,
+    ordering=out,
+    nodesep=0.35,
+    ranksep=0.55,
+    margin=0.05,
+    bgcolor="white"
+  ];
+
+  node [
+    fontname="monospace",
+    fontsize=13,
+    style="filled",
+    penwidth=1.4,
+    color="#4A5568",
+    fontcolor="#1A202C"
+  ];
+
+  root [
+    shape=plaintext,
+    label="root",
+    style="",
+    fontcolor="#4A5568"
+  ];
+
+  edge [
+    color="#4A5568",
+    arrowsize=0.7,
+    penwidth=1.2
+  ];
+
+  pair       [shape=box, label="(,)", fillcolor="#DFF5EA", color="#3A7D5B"];
+  left_head  [shape=box, label="(:)", fillcolor="#DFF5EA", color="#3A7D5B"];
+  right_head [shape=box, label="(:)", fillcolor="#DFF5EA", color="#3A7D5B"];
+
+  one   [shape=box, label="#1", fillcolor="#F1E8FF", color="#6B4CA0"];
+  three [shape=box, label="#3", fillcolor="#F1E8FF", color="#6B4CA0"];
+
+  fetch_left [
+    shape=box,
+    peripheries=2,
+    label="FM",
+    fillcolor="#FFE3E8",
+    color="#B8324A",
+    fontcolor="#742A3A"
+  ];
+
+  fetch_right [
+    shape=box,
+    peripheries=2,
+    label="FM",
+    fillcolor="#FFE3E8",
+    color="#B8324A",
+    fontcolor="#742A3A"
+  ];
+
+  root -> pair;
+
+  pair -> left_head;
+  pair -> right_head;
+
+  left_head -> one;
+  left_head -> fetch_left;
+
+  right_head -> three;
+  right_head -> fetch_right;
+}

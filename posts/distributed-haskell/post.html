@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A survey of parallel and distributed Haskell, from GUM, GdH and Eden to Mobile Haskell, Cloud Haskell, HdpH and Unison, and how each one moves code and data.">
+    <title>Robert Krook - Posts - Distributed Haskell - A Survey</title>
+    <link rel="canonical" href="https://www.krook.dev/posts/distributed-haskell/post.html">
+    <link rel="icon" href="/resources/me.jpg" type="image/jpeg">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Distributed Haskell - A Survey">
+    <meta property="og:description" content="A survey of parallel and distributed Haskell, from GUM, GdH and Eden to Mobile Haskell, Cloud Haskell, HdpH and Unison, and how each one moves code and data.">
+    <meta property="og:url" content="https://www.krook.dev/posts/distributed-haskell/post.html">
+    <meta property="og:image" content="https://www.krook.dev/posts/distributed-haskell/graphics/gum-packed-graph.png">
+    <meta property="og:site_name" content="Robert Krook">
+    <meta property="article:published_time" content="2026-10-26">
+    <meta property="article:author" content="https://www.krook.dev">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@Rewbert">
+    <meta name="twitter:title" content="Distributed Haskell - A Survey">
+    <meta name="twitter:description" content="A survey of parallel and distributed Haskell, from GUM, GdH and Eden to Mobile Haskell, Cloud Haskell, HdpH and Unison, and how each one moves code and data.">
+    <meta name="twitter:image" content="https://www.krook.dev/posts/distributed-haskell/graphics/gum-packed-graph.png">
+
+    <!-- JSON-LD: Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Distributed Haskell - A Survey",
+      "description": "A survey of parallel and distributed Haskell, from GUM, GdH and Eden to Mobile Haskell, Cloud Haskell, HdpH and Unison, and how each one moves code and data.",
+      "image": "https://www.krook.dev/posts/distributed-haskell/graphics/gum-packed-graph.png",
+      "keywords": "distributed haskell, parallel haskell, gum, glasgow distributed haskell, gdh, eden, mobile haskell, cloud haskell, hdph, unison, static pointers, closure serialization, code mobility, cloudmicrohaskell",
+      "author": {"@type": "Person", "name": "Robert Krook", "url": "https://www.krook.dev"},
+      "datePublished": "2026-10-26",
+      "url": "https://www.krook.dev/posts/distributed-haskell/post.html",
+      "inLanguage": "en"
+    }
+    </script>
+
+    <!-- styling -->
+    <link rel="stylesheet" href="../../style/style.css">
+
+    <!-- ubuntu sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+
+    <!-- post typography: keeps markdown free of per-element style/class litter -->
+    <style>
+      body {
+        font-family: "Ubuntu Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 350;
+        font-style: normal;
+        font-size: 20px;
+      }
+      h2 { font-size: 32px; margin-top: 1.4em; }
+      h3, h4, h5, h6 { font-size: 26px; margin-top: 1.2em; }
+      img { max-width: 100%; height: auto; display: block; margin: 1em auto; }
+      figure { margin: 1.4em auto; text-align: center; }
+      .subfigures { display: flex; flex-wrap: wrap; gap: 1em; justify-content: center; align-items: flex-start; }
+      .subfigures figure { flex: 1 1 280px; margin: 0; }
+      div.csl-entry { clear: both; margin-bottom: 0.5em; font-size: 0.85em; }
+      div.csl-left-margin { float: left; min-width: 2.5em; }
+      div.csl-right-inline { margin-left: 2.5em; }
+      figcaption { font-size: 16px; font-style: italic; color: #555; margin-top: 0.4em; }
+      pre {
+        overflow-x: auto;
+        background-color: #f6f6f6;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 12px 16px;
+      }
+      code { font-family: Consolas, Monaco, "Ubuntu Mono", monospace; font-size: 0.8em; }
+    </style>
+
+    <!-- pandoc's own build-time syntax highlighting (skylighting) - no client-side JS needed -->
+    <style>
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    </style>
+  </head>
+  <body>
+
+    <!-- landing page information with my face and some text -->
+    <div style="align-items: center; margin: auto; max-width: fit-content">
+      <img src="../../resources/me.jpg" style="border-radius: 50%; margin: auto; display: block" class="landing-image" alt="image depicting Robert Krook, a functional programmer based in Gothenburg">
+      <h1 class="ubuntu-font" style="text-align: center; font-size: 38px">Robert Krook</h1>
+      <hr>
+      <p class="ubuntu-font" style="text-align: center; font-size: 24px;">
+        <a class="link-style-underline" href="../../index.html">Front page</a> /
+        <a class="link-style-underline" href="../../pages/posts.html">Posts</a>
+      </p>
+    </div>
+
+    <div class="post">
+      <hr>
+      <h1 class="ubuntu-font" style="font-size: 40px; text-align: center; text-decoration: underline;">Distributed Haskell - A Survey</h1>
+
+      <h2 id="introduction">Introduction</h2>
+      <p>I recently finished <a href="../../papers/phd-thesis.pdf">my PhD thesis</a>, which includes a background chapter on distributed Haskell. This post is that chapter, edited to stand on its own. It is a survey in the loose sense: I cover the systems that mattered for my thesis, not every system ever built. Notably, some (read: one) system is not a Haskell system at all, but a Haskell-<em>inspired</em> system.</p>
+      <p>Haskell systems distribute computation for one of two reasons. Some want to speed up a single computation by spreading it over several cores or machines. Others describe applications whose components must run in different places, close to particular devices, data, or services. The two aims lead to different programming models, but they face many of the same problems, so this post covers both.</p>
+      <p>One problem runs through every system: when work moves from one machine to another, what actually moves? Moving the data a computation needs is comparatively easy. Moving the code that computes with it is much harder, and the systems below solve it differently, or not at all.</p>
+      <p>The story is roughly chronological, starting with GUM in the mid-1990s and ending with Cloud Haskell, HdpH, and Unison. Some systems get more space than others, usually because a distinguishing feature needs careful explanation.</p>
+      <p>I assume you know how lazy functional languages are typically compiled, in particular that a running program is represented as a graph of heap closures and thunks.</p>
+      <h2 id="distributed-haskell">Distributed Haskell</h2>
+      <p>Distributed Haskell systems pursue two distinct aims. One is to accelerate a single computation by evaluating parts of it across several processors or machines. The other is to describe an application whose components must execute at different locations, for example close to particular devices, data, or services. These aims lead to different programming models: distributed evaluation in the former case, and independently communicating components in the latter. The challenges both parallel and distributed Haskell systems must solve significantly overlap, so this post discusses both parallel and distributed Haskell systems.</p>
+      <p>We use the systems below to examine four recurring design questions. What are the independently executing units, who decides where they run, what information can move between them, and which part of the language implementation provides that mobility?</p>
+      <h3 id="gum">GUM</h3>
+      <p>GUM is a portable parallel implementation of Haskell presented by Trinder et al. <span class="citation" data-cites="DBLP:conf/pldi/TrinderHMPJ96"><a href="#ref-DBLP:conf/pldi/TrinderHMPJ96" role="doc-biblioref">[1]</a></span>. It extends the STG runtime with a collection of logical processing elements (PEs), which may be mapped to processors on either shared- or distributed-memory machines. Each PE maintains its own local heap and schedules a pool of Haskell threads. Together, these local heaps implement a global virtual heap containing the program’s shared graph.</p>
+      <p>When evaluation on one PE demands an object owned by another, the runtime requests it from the owning PE. Rather than returning only the requested object, the owning PE also packs a bounded portion of the nearby reachable graph. This bulk transfer amortises communication latency by reducing the likelihood of another remote request. When the packet boundary cuts an edge in the graph, the omitted target is represented by a Fetch-Me node, as illustrated below. If that node is subsequently demanded, GUM retrieves the missing graph fragment from its owning PE.</p>
+      <figure>
+      <div class="subfigures">
+      <figure>
+      <img src="graphics/gum-complete-graph.svg" alt="The full subgraph reachable from the requested root on the owning PE.">
+      <figcaption>(a) The full subgraph reachable from the requested root on the owning PE.</figcaption>
+      </figure>
+      <figure>
+      <img src="graphics/gum-packed-graph.svg" alt="The bounded graph packet sent to the requesting PE.">
+      <figcaption>(b) The bounded graph packet sent to the requesting PE.</figcaption>
+      </figure>
+      </div>
+      <figcaption>Graph packing in GUM. The full subgraph reachable from the requested root (a) is truncated to form a bounded transfer packet (b). Edges crossing the packet boundary are replaced by Fetch-Me (FM) nodes, allowing the omitted subgraphs to be retrieved later if demanded.</figcaption>
+      </figure>
+      <p>GUM transfers heap closures and their relationships, but it does not transfer executable code. The closures describe the current state of a computation while referring to code already available to every PE. GUM therefore moves work and data within a common compiled program, rather than providing code mobility between independently deployed programs.</p>
+      <p>GUM is important here because it demonstrates that a distributed runtime can move the state of a lazy computation by operating directly on its heap graph. It also exposes a central limitation that will recur throughout this post, that moving a graph of closures is not the same as moving the executable code to which those closures refer.</p>
+      <h3 id="glasgow-distributed-haskell">Glasgow Distributed Haskell</h3>
+      <p>While GUM achieved true parallelism by running multiple PEs, a single Haskell thread still drove the evaluation, with the runtime system using additional PEs to accelerate it when possible. A related line of work is that of Concurrent Haskell <span class="citation" data-cites="DBLP:conf/popl/JonesGF96"><a href="#ref-DBLP:conf/popl/JonesGF96" role="doc-biblioref">[2]</a></span>, which focused on concurrent programming primitives for Haskell. Its implementation used just one PE to run multiple threads, which communicated via messaging primitives such as <code>MVar</code>s. We will not elaborate much on Concurrent Haskell, but mention it here to form a segue to Glasgow Distributed Haskell (GdH) <span class="citation" data-cites="DBLP:conf/ifl/PointonTL00"><a href="#ref-DBLP:conf/ifl/PointonTL00" role="doc-biblioref">[3]</a></span>.</p>
+      <p>GdH built on the results of both the GUM runtime and Concurrent Haskell. It retained GUM’s multiple PEs and added a thread vocabulary much like that of Concurrent Haskell. The GUM runtime was extended with support for talking about the PEs of a running program, and creating threads on them. The cornerstones of the GdH API are facilities for identifying underlying PEs at runtime and creating threads on distant PEs. Furthermore, some resources must remain at a particular PE, so the <code>Immobile</code> type class can identify which PE owns a particular resource.</p>
+      <div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">myPEId ::</span> <span class="dt">IO</span> <span class="dt">PEId</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">allPEId ::</span> <span class="dt">IO</span> [<span class="dt">PEId</span>]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">rforkIO ::</span> <span class="dt">IO</span> () <span class="ot">-&gt;</span> <span class="dt">PEId</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">ThreadId</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">revalIO ::</span> <span class="dt">IO</span> a <span class="ot">-&gt;</span> <span class="dt">PEId</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> a</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">Immobile</span> a <span class="kw">where</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ot">  owningPE ::</span> a <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">PEId</span></span></code></pre></div>
+      <p>Notably, a thread on one PE can spawn a thread on another PE. The <code>MVar</code>s of Concurrent Haskell were extended to work across the multiple PEs of GUM and were the primary mechanism by which threads exchanged data. As an example, the below program queries the runtime for all available PEs and spawns a thread on the first one using <code>rforkIO</code>. The main thread then waits until the created thread populates the <code>MVar</code>, at which point it reads its value and prints it.</p>
+      <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  p<span class="op">:</span>ps <span class="ot">&lt;-</span> allPEId</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> newEmptyMVar</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  rforkIO (putMVar m <span class="dv">42</span>) p</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> takeMVar m</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">putStrLn</span> (<span class="fu">show</span> r)</span></code></pre></div>
+      <p>As GdH built upon the GUM runtime, it inherited its characteristics. Code never actually crosses between PEs, and all PEs are loaded up with the same compiled executable. In the above example, the body of the created thread is represented by a closure that models the applications involved, but the code for actually evaluating, e.g., <code>putStrLn</code>, is not sent between PEs.</p>
+      <h3 id="eden">Eden</h3>
+      <p>Eden <span class="citation" data-cites="DBLP:journals/jfp/LoogenOP05"><a href="#ref-DBLP:journals/jfp/LoogenOP05" role="doc-biblioref">[4]</a></span> is another Haskell implementation for distributing evaluation. It takes a different approach to the implicit distribution of the GUM runtime, and to the explicit thread vocabulary of GdH. Eden provides <em>processes</em>, which are remotely instantiated functions from <code>a</code> to <code>b</code>. The core API is, once again, quite small.</p>
+      <div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="dt">NFData</span> a <span class="ot">=&gt;</span> <span class="dt">Trans</span> a <span class="kw">where</span> (<span class="op">...</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> (<span class="dt">Trans</span> a, <span class="dt">Trans</span> b) <span class="ot">=&gt;</span> <span class="dt">Process</span> a b <span class="ot">=</span> <span class="op">...</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ot">process ::</span> (<span class="dt">Trans</span> a, <span class="dt">Trans</span> b) <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Process</span> a b</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>( <span class="op">#</span> )<span class="ot">   ::</span> (<span class="dt">Trans</span> a, <span class="dt">Trans</span> b) <span class="ot">=&gt;</span> <span class="dt">Process</span> a b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">ChanName</span> a <span class="ot">=</span> <span class="op">...</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ot">new     ::</span> <span class="dt">Trans</span> a <span class="ot">=&gt;</span> (<span class="dt">ChanName</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="ot">parfill ::</span> <span class="dt">Trans</span> a <span class="ot">=&gt;</span> <span class="dt">ChanName</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> b</span></code></pre></div>
+      <p>A <code>Process a b</code> type models a process that takes a value of type <code>a</code> as input and returns a value of type <code>b</code>. Processes are declared via <code>process</code>, but actually started by <code>#</code>, which applies it to its input. Channels can be used to send data between arbitrary processes, using the <code>new</code> and <code>parfill</code> functions.</p>
+      <p>Eden separates three distinct things. Computations themselves are expressed as ordinary Haskell functions. The process abstraction is created with <code>process</code>, and finally the parallel instantiation is performed with <code>(#)</code>. The type class <code>Trans</code> is instantiated by every type that can cross between processes. The <code>NFData</code> constraint is used to ensure that values are evaluated before being communicated. Because an Eden process takes an input and produces an output when it terminates, it implicitly communicates with its parent process. However, for dynamic communication with arbitrary processes a user must create named channels with <code>new</code> and write to them with <code>parfill</code>. A restriction on channels is that they can only be used <em>once</em>. Subsequent writes to the same channel result in an error.</p>
+      <p>Reading from a channel is done implicitly. A process that creates a channel might execute</p>
+      <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>new (\chanName val <span class="ot">-&gt;</span> body)</span></code></pre></div>
+      <p>While not obvious, <code>body</code> now has access to <em>both</em> the write-end and read-end of the channel. <code>chanName</code> can be used by any process to send a value down the channel. A process might write to the channel like so:</p>
+      <div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>parfill chanName x cont</span></code></pre></div>
+      <p><code>parfill</code> creates a concurrent thread that evaluates <code>x</code> and sends it down the channel, while the current process immediately continues with <code>cont</code>. The read-end of the channel is the value <code>val :: a</code>. It is a lazy placeholder for a value that might arrive through the channel at some point. Trying to force <code>val</code> will block that process until the value arrives.</p>
+      <h3 id="mobile-haskell">Mobile Haskell</h3>
+      <p>GdH and Eden give the programmer more explicit ways to describe remote activity and communication than GUM. Nevertheless, they retain the same basic deployment assumption: computation may be placed remotely, but the code required to perform it must already be installed there. The next question is therefore whether a Haskell system can move not only the state of a computation, but also the code required to continue it. <em>Mobile Haskell</em> (mHaskell) <span class="citation" data-cites="DBLP:conf/sfp/BoisTL03"><a href="#ref-DBLP:conf/sfp/BoisTL03" role="doc-biblioref">[5]</a></span> explores this possibility. It extends Concurrent Haskell with higher-order communication channels called <code>MChannel</code>s. An <code>MChannel</code> can transmit Haskell values, including functions, <code>IO</code> actions, and other channels. Channels can be registered by name and discovered by independently executing programs, allowing mHaskell to support open distributed systems rather than only a fixed collection of processing elements. Remote evaluation is implemented by sending an <code>IO</code> action through such a channel and starting it on the receiving machine.</p>
+      <p>The interface for remote evaluation is particularly direct:</p>
+      <div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">rforkIO ::</span> <span class="dt">IO</span> () <span class="ot">-&gt;</span> <span class="dt">HostName</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ot">greet ::</span> <span class="dt">HostName</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>greet host name <span class="ot">=</span> rforkIO (<span class="fu">putStrLn</span> (<span class="st">&quot;Hello, &quot;</span> <span class="op">++</span> name)) host</span></code></pre></div>
+      <p>The action passed to <code>rforkIO</code> closes over <code>name</code>. mHaskell serialises the graph representing this action, including the captured string and any required mobile bytecode, and reconstructs it on <code>host</code>. References to native code, such as library routines used by <code>putStrLn</code>, are instead resolved against code already installed at the receiving machine.</p>
+      <p>mHaskell is implemented as an extension of GHC. It was designed for heterogeneous networks whose machines may use different processor architectures and operating systems. Its runtime extensions are implemented in portable C, with communication between machines implemented using TCP sockets. To make executable code portable between architectures, mHaskell combines native code produced by GHC with machine-independent bytecode produced by GHCi.</p>
+      <p>Modules compiled by GHCi are represented by ByteCode Objects and can be included in a transmitted graph. Modules compiled to native code are not transmitted and must instead be available for linking at the destination. By compiling shared modules to native code and potentially mobile modules to bytecode, the programmer controls how much code is transmitted and how much must already be installed at each node.</p>
+      <p>To serialise a computation, mHaskell adapts GUM’s graph-packing algorithm and extends it to recognise ByteCode Objects. Unlike GUM, which may terminate a graph packet with Fetch-Me nodes referring back to the source PE, mHaskell continues until the entire graph reachable from the transmitted value has been serialised. Sharing and cycles within that graph are preserved, but no references back into the sender’s heap remain. The receiver therefore obtains an independent copy rather than participating in a global shared heap.</p>
+      <p>mHaskell’s mobility therefore depends on a shared software base. Participating machines must run compatible versions of the modified GHC runtime and provide any native libraries required by received bytecode. Furthermore, any user-defined data types used by a transmitted computation must already have compatible compiled definitions at the receiving machine, since the prototype transmits their values but not their definitions.</p>
+      <p>mHaskell demonstrates that code mobility is possible when the transferred representation includes portable bytecode. Its implementation also depends directly on GHC’s internal representations of heap closures, ByteCode Objects, and linker information. This illustrates the engineering cost of implementing distribution inside a large and evolving compiler runtime.</p>
+      <h3 id="cloud-haskell">Cloud Haskell</h3>
+      <p>GdH, Eden, and mHaskell all obtain their distributed behaviour through specialised compiler or runtime support. Cloud Haskell explores a different point in the design space by implementing distributed coordination primarily as a library on top of an ordinary GHC runtime.</p>
+      <p><em>Cloud Haskell</em> <span class="citation" data-cites="DBLP:conf/haskell/EpsteinBJ11"><a href="#ref-DBLP:conf/haskell/EpsteinBJ11" role="doc-biblioref">[6]</a></span> is a shallowly embedded domain-specific language for distributed programming on an ordinary GHC runtime. It follows Erlang’s model of lightweight processes that communicate by passing messages rather than through shared memory. A <em>node</em> represents a participating runtime system at a particular network location. Each node can execute many concurrent processes, and each process has a process identifier and a mailbox. Processes can create further processes locally or remotely, exchange messages, and monitor one another for termination.</p>
+      <p>The types of the basic message-passing operations expose an important restriction:</p>
+      <div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ot">send   ::</span> <span class="dt">Serializable</span> a <span class="ot">=&gt;</span> <span class="dt">ProcessId</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">ProcessM</span> ()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ot">expect ::</span> <span class="dt">Serializable</span> a <span class="ot">=&gt;</span> <span class="dt">ProcessM</span> a</span></code></pre></div>
+      <p>A value sent between processes must satisfy the <code>Serializable</code> constraint, which provides the binary representation needed to transmit it. Function values present a particular difficulty because a function’s type describes only its argument and result, not the environment captured by that function. A closed function and a function of the same type that captures an <code>Int</code> may both have type <code>Int -&gt; Int</code>, while a third function of that type might capture another function. Their types are identical, but their environments have different serialisation requirements. Consequently, whether a function can be serialised cannot be determined structurally from its type.</p>
+      <p>Cloud Haskell addresses the code part of this problem by introducing the type <code>Static a</code>. The proposed typing rule distinguishes top-level bindings, which are classified as static, from locally bound variables, which are classified as dynamic. An expression <code>static e</code> is accepted only when every free variable of <code>e</code> refers to a static, top-level binding. It may therefore refer to other top-level definitions, but it cannot capture a value bound by a surrounding function or local <code>let</code>. A top-level supercombinator, meaning a function with no dynamically bound free variables, is the simplest example of such a static expression, although the rule also permits expressions composed from several top-level definitions.</p>
+      <p>Under Cloud Haskell’s assumption that participating nodes run the same program, a static function can be represented by a symbolic code label. The receiving node can use that label to locate its own copy of the function. A value of type <code>Static a</code> is therefore serialisable without requiring <code>a</code> itself to satisfy <code>Serializable</code>. The static machinery does not make an arbitrary captured environment serialisable; instead, it guarantees that the code component has no hidden dynamic environment.</p>
+      <p>Remote process creation makes this boundary visible in its type:</p>
+      <div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ot">spawn ::</span> <span class="dt">NodeId</span> <span class="ot">-&gt;</span> <span class="dt">Closure</span> (<span class="dt">ProcessM</span> ()) <span class="ot">-&gt;</span> <span class="dt">ProcessM</span> <span class="dt">ProcessId</span></span></code></pre></div>
+      <p>The caller explicitly chooses the destination node, but cannot pass an arbitrary <code>ProcessM ()</code> action. Instead, the action must be represented by a value of type <code>Closure (ProcessM ())</code>.</p>
+      <p>The word <em>closure</em> requires some care here. The GHC heap closures discussed earlier in this post are low-level runtime objects representing functions, applications, constructors, thunks, and other heap values. Cloud Haskell’s <code>Closure a</code> is not an exposed GHC heap closure. It is an explicitly constructed, source-level Haskell value that describes how a value of type <code>a</code> can be reconstructed on another node. Cloud Haskell serialises this description rather than traversing and copying the arbitrary runtime graph reachable from the original value.</p>
+      <p>Conceptually, Cloud Haskell uses the following representation:</p>
+      <div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Closure</span> a <span class="kw">where</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">MkClosure</span><span class="ot"> ::</span> <span class="dt">Static</span> (<span class="dt">ByteString</span> <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> <span class="dt">ByteString</span> <span class="ot">-&gt;</span> <span class="dt">Closure</span> a</span></code></pre></div>
+      <p>The two fields separate the statically identifiable code from its dynamically supplied environment. The <code>Static</code> component identifies a reconstruction function whose definition is available on every participating node and whose lack of dynamically bound free variables has been checked. The <code>ByteString</code> contains the environment, serialised explicitly while its type and corresponding <code>Serializable</code> instance are still known at the construction site. This timing matters because the type of the environment is hidden inside <code>Closure a</code>, and cannot be recovered from <code>a</code> at the receiving node. The appropriate environment decoder is therefore included in the static reconstruction function.</p>
+      <p>When a <code>Closure</code> is transmitted, Cloud Haskell sends the static code identifier and the already serialised environment. The receiving node looks up its local reconstruction function and applies it to the received environment. Cloud Haskell therefore does not transmit executable code in the manner of mHaskell. It transmits a reference to installed code together with the data needed to reconstruct its environment.</p>
+      <p>The distinction becomes visible when attempting to send a function that captures a local variable. One might like to write:</p>
+      <div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ot">sendFunc ::</span> <span class="dt">ProcessId</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">ProcessM</span> ()</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sendFunc p x <span class="ot">=</span> send p (\y <span class="ot">-&gt;</span> x <span class="op">+</span> y <span class="op">+</span> <span class="dv">1</span>)</span></code></pre></div>
+      <p>This program expresses the intended computation directly, but the type <code>Int -&gt; Int</code> neither identifies the function’s code nor reveals that its environment contains <code>x</code>, so it cannot provide the required <code>Serializable</code> instance. In Cloud Haskell, we instead need to write this:</p>
+      <div class="sourceCode" id="cb11"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ot">sendFunc ::</span> <span class="dt">ProcessId</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">ProcessM</span> ()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sendFunc p x <span class="ot">=</span> send p clo</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ot">    clo ::</span> <span class="dt">Closure</span> (<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    clo <span class="ot">=</span> <span class="dt">MkClosure</span> (static sfun) (encode x)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="ot">sfun ::</span> <span class="dt">ByteString</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>sfun bs y <span class="ot">=</span> <span class="kw">let</span> x <span class="ot">=</span> decode bs <span class="kw">in</span> x <span class="op">+</span> y <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
+      <p>This transformation performs closure conversion explicitly. The code of the local function is moved into the top-level function <code>sfun</code>. Because <code>sfun</code> has no dynamically bound free variables, the static typing rule permits the expression <code>static sfun</code>. The local value <code>x</code>, which cannot occur inside that static expression, is instead moved into the explicitly serialised environment. The reconstruction function <code>sfun</code> decodes this environment before evaluating the original function body.</p>
+      <p>The original Cloud Haskell implementation used Template Haskell to generate the closure-construction, decoding, and registration machinery. However, the programmer still had to perform the essential closure conversion by defining a top-level function whose arguments represented the captured environment.</p>
+      <p>Cloud Haskell therefore places the mobility boundary in its source-level API. Processes are the units of distribution, the programmer chooses their placement, messages must be serialisable, and remotely spawned computations must be represented by explicit <code>Closure</code> values referring to code already installed at the destination. This boundary is the one my own work moves: <a href="../cmh/post.html">CloudMicroHaskell</a> retains the process and message-passing model while moving the serialisation mechanism into the runtime representation.</p>
+      <h3 id="hdph">HdpH</h3>
+      <p>A project closely related to Cloud Haskell is <em>Haskell distributed parallel Haskell</em> (HdpH) <span class="citation" data-cites="DBLP:conf/ifl/MaierT11"><a href="#ref-DBLP:conf/ifl/MaierT11" role="doc-biblioref">[7]</a></span>. Like Cloud Haskell, HdpH is implemented primarily as a library and uses static references to identify code that is available on every node. The two systems are intended for different forms of distributed computation. Cloud Haskell describes applications consisting of independently executing processes, whereas HdpH distributes tasks in order to accelerate a parallel computation.</p>
+      <p>HdpH builds on the <code>Par</code> monad, a library interface for deterministic parallelism. Computations in the <code>Par</code> monad can create parallel tasks and communicate their results through single-assignment variables called <code>IVar</code>s. HdpH extends this model from shared-memory parallelism to machines with separate address spaces.</p>
+      <p>HdpH refers to a computation that is available for parallel execution as a <em>spark</em>. This terminology and the underlying idea are similar to the sparks used by multicore GHC. In both cases, creating a spark identifies an opportunity for parallel execution without guaranteeing that the computation will actually execute in parallel. The execution mechanisms are, however, different. A spark in multicore GHC refers directly to a closure in the shared heap of one runtime system and may be converted into a thread by one of that runtime system’s worker threads. An HdpH spark is instead represented by an explicit serialisable closure, allowing it either to be executed locally or to be transferred to a separate runtime system on another node. The programmer does not assign an HdpH spark to a particular node. Instead, the scheduler distributes sparks among nodes, allowing idle nodes to obtain work from busy nodes.</p>
+      <p>Cloud Haskell processes communicate by sending messages to process identifiers and receiving them from their mailboxes. This supports general communication protocols among independently executing processes. HdpH tasks instead communicate information through <code>IVar</code>s. An <code>IVar</code> can be written exactly once, and reading it blocks until its value becomes available. A local <code>IVar</code> can be turned into a serialisable global reference called a <code>GIVar</code>. A remote task can write a result to this reference using <code>rput</code>, after which the task that owns the corresponding local <code>IVar</code> can read the result. There is no operation for reading a <code>GIVar</code> remotely. HdpH communication is therefore organised around dependencies between parallel tasks rather than messages exchanged between independent processes.</p>
+      <p>Like Cloud Haskell, HdpH uses explicit closures to represent remotely executable computations. HdpH extends Cloud Haskell’s closure representation by storing both the actual thunk and a serialisable description of that thunk.</p>
+      <div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Closure</span> a <span class="ot">=</span> <span class="dt">UnsafeMkClosure</span> a (<span class="dt">Static</span> (<span class="dt">ByteString</span> <span class="ot">-&gt;</span> a)) <span class="dt">ByteString</span></span></code></pre></div>
+      <p>The three fields form two representations of the same computation. The first field contains the actual thunk and is used when the closure is evaluated on its current node. The remaining fields contain a static deserialiser and a serialised environment, which together form the representation used when the closure is transferred to another node. If the closure remains local, <code>unClosure</code> can return the first field directly without serialising and deserialising its environment. If the closure is transferred, only its static reference and environment are serialised, and the receiving node uses them to reconstruct the thunk lazily. This dual representation is particularly useful in HdpH because the scheduler may execute a spark locally or transfer it to another node. The constructor is unsafe because the actual thunk and its serialisable representation must describe the same computation.</p>
+      <p>The dual representation also allows HdpH to transform explicit closures while retaining their ability to be transferred. For example, HdpH provides the following polymorphic operation:</p>
+      <div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ot">mapClosure ::</span> <span class="dt">Closure</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Closure</span> a <span class="ot">-&gt;</span> <span class="dt">Closure</span> b</span></code></pre></div>
+      <p>Because both the function and its argument are explicit closures, HdpH can construct both representations of the resulting closure without requiring the types <code>a</code> and <code>b</code> themselves to be serialisable. This makes it possible to define polymorphic evaluation strategies and algorithmic skeletons, such as a parallel map, on top of the primitive task interface.</p>
+      <p>Despite supporting distributed scheduling, HdpH does not provide code mobility. The static component of a closure identifies code that must already be installed on every participating node. HdpH therefore transfers tasks and their environments, but not arbitrary executable code or runtime graphs.</p>
+      <h3 id="unison">Unison</h3>
+      <p>The programming language Unison <span class="citation" data-cites="chiusano2019unison"><a href="#ref-chiusano2019unison" role="doc-biblioref">[8]</a></span> avoids this shared-code assumption by making program definitions independently identifiable and transferable. Unison is a statically typed, purely functional language influenced by Haskell, and its compiler is implemented in Haskell. Each definition is identified by a hash of its syntax tree, including the hashes of the definitions on which it depends. When a computation is sent to another node, the recipient can identify the referenced definitions it does not possess and request them from the sender <span class="citation" data-cites="unisonBigIdea"><a href="#ref-unisonBigIdea" role="doc-biblioref">[9]</a></span>. The transferred definitions can then be cached and reused by subsequent computations. A node can therefore execute a received computation without having been provisioned with the complete application in advance.</p>
+      <h3 id="summary">Summary</h3>
+      <p>The systems described above demonstrate that <em>mobility</em> is a tricky problem that has captured the interest of many people. GUM, GdH, and Eden execute code in a setting where every participant has been provisioned with the same code. Data and work can move between these participants, but program-specific code cannot. Cloud Haskell and HdpH represent transferable computations as explicit closures, but the code identified by their static components must still be installed on every participating node. mHaskell and Unison remove this shared-code assumption in different ways. mHaskell can include portable bytecode in a transmitted graph, whereas Unison retrieves immutable definitions using their content hashes.</p>
+      <h2 id="where-my-own-work-fits">Where my own work fits</h2>
+      <p>My own papers can be placed along the same axis. <a href="../../papers/hastee.pdf">HasTEE</a> identifies two locations at which computations should be placed, with the assumption that one of them is a trusted execution environment (TEE). The two components are compiled separately, deployed within their own address spaces, and communicate by sending serialised data. The code for each location is installed during deployment and does not change during runtime. Code cannot move from one location to another, only data.</p>
+      <p><a href="../../papers/partitioningHaskell2024.pdf">My paper on program partitioning</a> studies how to use compile-time techniques to derive which code should go into a specific location. It ensures that computations that should happen at a specific endpoint do not end up at another endpoint and that, again, only serialised data is transmitted between endpoints. Both HasTEE and the partitioning paper thus use language abstractions to talk about <em>where</em> code belongs, and how to communicate serialised data between endpoints.</p>
+      <p>As I explain in <a href="../cmh/post.html#serialisation-deserialisation">my post on CloudMicroHaskell</a>, the bytecode representation used by <a href="https://github.com/augustss/MicroHs">MicroHs</a> allows <em>both</em> code and data to be serialised and sent between running instances. The only required shared software base is a compatible version of the MicroHs runtime system. <a href="../../papers/cloudHaskell2026.pdf">CloudMicroHaskell</a>, joint work with Lennart Augustsson, applies this property. CloudMicroHaskell retains Cloud Haskell’s nodes, lightweight processes, mailboxes, remote spawning, and process monitoring, but moves the serialisation boundary out of the source-level API and into the MicroHs runtime. A remotely spawned process can be written as an ordinary <code>ProcessM</code> computation that captures variables from its surrounding scope. When the process crosses a node boundary, the runtime serialises the reachable graph containing both its code and its captured environment. Messages are handled by the same mechanism, allowing ordinary values, including functions, to be transmitted without programmer-written <code>Serializable</code> instances or explicit closure conversion.</p>
+      <p>Unison and CloudMicroHaskell both allow a node to execute a computation whose program-specific code was not installed in advance, but they operate on different program representations. Unison assigns immutable definitions stable content hashes and transfers the code definitions that the receiving node lacks, after which those definitions can be cached and reused. CloudMicroHaskell instead serialises the runtime graph reachable from each process or message, in which application code, data, and the captured environment share the same graph representation. This requires no separate mechanism for identifying and deploying definitions, but the amount transferred depends on the current runtime graph, and the same program-specific code may be transmitted again as part of a later graph.</p>
+      <p>Moving the boundary from the type system to the runtime system changes where errors are detected. Cloud Haskell can rule out erroneous programs at compile time, whereas CloudMicroHaskell will encounter them at runtime. It is also invisible to the programmer precisely what the price of laziness is. A small value might be represented by a large, unevaluated graph, which will be more costly to serialise, transmit, and deserialise.</p>
+      <p>My work therefore investigates two complementary ways of reaching execution environments for which an ordinary Haskell program was not originally prepared. HasTEE and the partitioning paper transform and divide the program before execution, installing only the code intended for each environment. CloudMicroHaskell instead changes what the runtime can transfer during execution by using a representation in which program-specific code and data can move together.</p>
+      <h2 id="references">References</h2>
+      <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+      <div id="ref-DBLP:conf/pldi/TrinderHMPJ96" class="csl-entry" role="listitem">
+      <div class="csl-left-margin">[1] </div><div class="csl-right-inline">P. W. Trinder, K. Hammond, J. S. Mattson Jr., A. S. Partridge, and S. L. Peyton Jones, <span>“<span>GUM</span>: <span>A</span> <span>Portable</span> <span>Parallel</span> <span>Implementation</span> of <span>Haskell</span>,”</span> in <em>Proceedings of the <span>ACM</span> <span>SIGPLAN</span> conference on programming language design and implementation (<span>PLDI</span> ’96)</em>, <span>ACM</span>, 1996, pp. 79–88. doi: <a href="https://doi.org/10.1145/231379.231392">10.1145/231379.231392</a>.</div>
+      </div>
+      <div id="ref-DBLP:conf/popl/JonesGF96" class="csl-entry" role="listitem">
+      <div class="csl-left-margin">[2] </div><div class="csl-right-inline">S. L. Peyton Jones, A. D. Gordon, and S. Finne, <span>“Concurrent <span>Haskell</span>,”</span> in <em>Proceedings of the <span>ACM</span> <span>SIGPLAN-SIGACT</span> symposium on principles of programming languages (<span>POPL</span> ’96)</em>, <span>ACM</span>, 1996, pp. 295–308. doi: <a href="https://doi.org/10.1145/237721.237794">10.1145/237721.237794</a>.</div>
+      </div>
+      <div id="ref-DBLP:conf/ifl/PointonTL00" class="csl-entry" role="listitem">
+      <div class="csl-left-margin">[3] </div><div class="csl-right-inline">R. F. Pointon, P. W. Trinder, and H.-W. Loidl, <span>“The <span>Design</span> and <span>Implementation</span> of <span>Glasgow</span> <span>Distributed</span> <span>Haskell</span>,”</span> in <em>Implementation of functional languages (<span>IFL</span> 2000)</em>, in Lecture notes in computer science, vol. 2011. Springer, 2000, pp. 53–70. doi: <a href="https://doi.org/10.1007/3-540-45361-X_4">10.1007/3-540-45361-X_4</a>.</div>
+      </div>
+      <div id="ref-DBLP:journals/jfp/LoogenOP05" class="csl-entry" role="listitem">
+      <div class="csl-left-margin">[4] </div><div class="csl-right-inline">R. Loogen, Y. Ortega-Mallén, and R. Peña-Marí, <span>“Parallel <span>Functional</span> <span>Programming</span> in <span>Eden</span>,”</span> <em>Journal of Functional Programming</em>, vol. 15, no. 3, pp. 431–475, 2005, doi: <a href="https://doi.org/10.1017/S0956796805005526">10.1017/S0956796805005526</a>.</div>
+      </div>
+      <div id="ref-DBLP:conf/sfp/BoisTL03" class="csl-entry" role="listitem">
+      <div class="csl-left-margin">[5] </div><div class="csl-right-inline">A. R. Du Bois, P. W. Trinder, and H.-W. Loidl, <span>“Implementing <span>Mobile</span> <span>Haskell</span>,”</span> in <em>Trends in functional programming (<span>TFP</span> 2003)</em>, Intellect, 2003, pp. 79–94.</div>
+      </div>
+      <div id="ref-DBLP:conf/haskell/EpsteinBJ11" class="csl-entry" role="listitem">
+      <div class="csl-left-margin">[6] </div><div class="csl-right-inline">J. Epstein, A. P. Black, and S. L. Peyton Jones, <span>“Towards <span>Haskell</span> in the <span>Cloud</span>,”</span> in <em>Proceedings of the 4th <span>ACM</span> <span>SIGPLAN</span> symposium on <span>Haskell</span> (<span>Haskell</span> 2011)</em>, <span>ACM</span>, 2011, pp. 118–129. doi: <a href="https://doi.org/10.1145/2034675.2034690">10.1145/2034675.2034690</a>.</div>
+      </div>
+      <div id="ref-DBLP:conf/ifl/MaierT11" class="csl-entry" role="listitem">
+      <div class="csl-left-margin">[7] </div><div class="csl-right-inline">P. Maier and P. W. Trinder, <span>“Implementing a <span>High</span>-<span>Level</span> <span>Distributed</span>-<span>Memory</span> <span>Parallel</span> <span>Haskell</span> in <span>Haskell</span>,”</span> in <em>Implementation and application of functional languages (<span>IFL</span> 2011)</em>, in Lecture notes in computer science, vol. 7257. Springer, 2011, pp. 35–50. doi: <a href="https://doi.org/10.1007/978-3-642-34407-7_3">10.1007/978-3-642-34407-7_3</a>.</div>
+      </div>
+      <div id="ref-chiusano2019unison" class="csl-entry" role="listitem">
+      <div class="csl-left-margin">[8] </div><div class="csl-right-inline">P. Chiusano, <span>“Unison: A <span>New</span> <span>Distributed</span> <span>Programming</span> <span>Language</span>.”</span> Presentation at Strange Loop, Sep. 2019. Accessed: Aug. 20, 2026. [Online]. Available: <a href="https://www.thestrangeloop.com/2019/unison-a-new-distributed-programming-language.html">https://www.thestrangeloop.com/2019/unison-a-new-distributed-programming-language.html</a></div>
+      </div>
+      <div id="ref-unisonBigIdea" class="csl-entry" role="listitem">
+      <div class="csl-left-margin">[9] </div><div class="csl-right-inline">Unison Computing, <span>“The <span>Big</span> <span>Idea</span>.”</span> Accessed: Aug. 20, 2026. [Online]. Available: <a href="https://www.unison-lang.org/docs/the-big-idea/">https://www.unison-lang.org/docs/the-big-idea/</a></div>
+      </div>
+      </div>
+
+    </div><br><br>
+
+    <!-- footer -->
+    <hr style="max-width: 300px;"><br>
+
+    <div style="display: flex; justify-content: center;">
+      <a href="https://github.com/Rewbert" target="_blank">
+        <img src="../../github-logo/github-mark.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-right: 10px;">
+      </a>
+
+      <a href="https://www.linkedin.com/in/robert-krook-14ab97121/" target="_blank">
+        <img src="../../LinkedIn-Logos/LI-In-Bug.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px; padding-right: 10px;">
+      </a>
+
+      <a href="https://twitter.com/Rewbert" target="_blank">
+        <img src="../../x-logo/logo-black.png" style="margin: auto; display: block; width: 60px; height: 60px; padding-left: 10px;">
+      </a>
+    </div><br>
+
+  </body>
+</html>
